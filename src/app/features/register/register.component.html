@@ -1,0 +1,245 @@
+<section class="min-h-screen bg-blue-950 flex items-center justify-center p-6">
+    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
+        <!-- Tabs -->
+        <div class="flex mb-6 border-b">
+            <a routerLink="/login" class="w-1/2 text-center py-3 text-gray-500 hover:text-blue-600">
+                Login
+            </a>
+
+            <a routerLink="/register"
+                class="w-1/2 text-center py-3 font-semibold border-b-2 border-blue-600 text-blue-600">
+                Register
+            </a>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-800">Create a new account</h2>
+        <p class="text-sm text-gray-500 mb-6">It is quick and easy.</p>
+
+        <form [formGroup]="registerForm" (ngSubmit)="submitForm()" class="space-y-4">
+
+
+            <!-- Full Name -->
+            <div class="relative">
+                <input [ngClass]="{
+                    'border-green-700': registerForm.get('name')?.valid,
+                    'border-red-500': registerForm.get('name')?.invalid && registerForm.get('name')?.touched
+                    }" type="text" formControlName="name" id="fullname"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border appearance-none focus:outline-none focus:ring-0 peer"
+                    placeholder="" />
+                <label for="fullname"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Full Name
+                </label>
+            </div>
+            @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+                role="alert">
+                <div>
+                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                        @if (registerForm.get('name')?.hasError('required')) {
+                        <li>Full Name is required</li>
+                        } @else if (registerForm.get('name')?.hasError('minlength')) {
+                        <li>Name must be at least 3 characters long</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+            <!-- Username -->
+            <div class="relative">
+                <input type="text" id="username" formControlName="username"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder="" />
+                <label for="username"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Username (optional)
+                </label>
+            </div>
+
+            <!-- Email -->
+            <div class="relative">
+                <input type="email" id="email" formControlName="email"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder="" />
+                <label for="email"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Email address
+                </label>
+            </div>
+            @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+                role="alert">
+                <div>
+                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                        @if (registerForm.get('email')?.hasError('required')) {
+                        <li>Email is required</li>
+                        } @else if (registerForm.get('email')?.hasError('email')) {
+                        <li>Please enter a valid email address</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+            <!-- Gender -->
+            <div class="relative">
+                <select id="gender" formControlName="gender"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder="">
+                    <option selected disabled hidden value="">Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+                <label for="gender"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Select gender
+                </label>
+            </div>
+            @if (registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched) {
+            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+                role="alert">
+                <div>
+                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                        @if (registerForm.get('gender')?.hasError('required')) {
+                        <li>Gender is required</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+            <!-- Birthdate -->
+            <div class="relative">
+                <input type="date" id="birthdate" formControlName="dateOfBirth"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder="" />
+                <label for="birthdate"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Birthdate
+                </label>
+            </div>
+            @if (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched) {
+            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+                role="alert">
+                <div>
+                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                        @if (registerForm.get('dateOfBirth')?.hasError('required')) {
+                        <li>Date of Birth is required</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+
+            <!-- Password -->
+            <div class="relative">
+                <input #password type="password" id="password" formControlName="password"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder="" />
+                <label for="password"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Password
+                </label>
+                <span (click)="showPassword(password)"
+                 class="absolute top-1/2 inset-e-4 -translate-y-3 cursor-pointer">
+                    <i [class] = "password.type === 'password' ? 'fas fa-eye-slash' : 'fas fa-eye'" class="fas"></i>
+                </span>
+            </div>
+            @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+                role="alert">
+                <div>
+                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                        @if (registerForm.get('password')?.hasError('required')) {
+                        <li>Password is required</li>
+                        }
+                        @else if (registerForm.get('password')?.hasError('pattern')) {
+                        <li>Password must contain at least 8 characters, 1 uppercase, 1 number and 1 special character
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+
+            <!-- Confirm Password -->
+            <div class="relative">
+                <input #rePassword type="password" id="rePassword" formControlName="rePassword"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    placeholder="" />
+                <label for="rePassword"
+                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                        height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
+                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
+                    </svg>
+                    Confirm password
+                </label>
+                <span (click)="showPassword(rePassword)"
+                 class="absolute top-1/2 inset-e-4 -translate-y-3 cursor-pointer">
+                    <i [class] = "rePassword.type === 'password' ? 'fas fa-eye-slash' : 'fas fa-eye'" class="fas"></i>
+                </span>
+            </div>
+
+            @if (registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched) {
+            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+                role="alert">
+                <div>
+                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+                        @if (registerForm.get('rePassword')?.hasError('required')) {
+                        <li>Confirm password is required</li>
+                        }
+                        @else if (registerForm.get('rePassword')?.hasError('notMatch')) {
+                        <li>Password do not match</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            }
+
+            <!-- Button -->
+            <button [disabled]="loading"
+                class="disabled:bg-gray-500 disabled:cursor-not-allowed w-full bg-blue-700 text-white py-3 cursor-pointer rounded-lg hover:bg-blue-800 transition">
+                Create New Account
+
+                @if(loading){
+                <i class="fas fa-spinner animate-spin"></i>
+                }
+            </button>
+
+            @if (msgError){
+            <p class="text-center text-red-800 p-2">{{msgError}}</p>
+            }
+        </form>
+    </div>
+</section>
+<!-- focus:outline-none focus:ring-2 focus:ring-blue-500 -->
