@@ -1,4 +1,4 @@
 export const environment = {
-    baseUrl: 'https://route-posts.routemisr.com'
+    baseUrl: 'https://localhost:5001/api/'
 };
 // production environment
