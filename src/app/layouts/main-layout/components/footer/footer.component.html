@@ -1,0 +1,123 @@
+<footer class="border-t border-primary bg-primary text-background">
+  <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <div class="grid gap-8 md:grid-cols-[1.1fr_1fr] lg:grid-cols-[1fr_1.4fr_0.9fr] lg:items-start">
+      <section aria-label="Damoor" class="max-w-sm">
+        <img src="/assets/imgs/Light-word-Horizontal.svg" alt="Damoor" class="h-auto w-32 sm:w-36" width="2172"
+          height="724" />
+        <p class="mt-4 text-sm leading-6 text-background/68">
+          Premium everyday clothing with a quiet, refined point of view.
+        </p>
+      </section>
+
+      <nav aria-label="Footer navigation" class="grid grid-cols-3 gap-6 text-sm">
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">Shop</h2>
+          <ul class="mt-3 space-y-2 text-background/68">
+            @for (link of shopLinks; track link) {
+            <li>
+              <a href="/"
+                class="transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">{{
+                link }}</a>
+            </li>
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">Support</h2>
+          <ul class="mt-3 space-y-2 text-background/68">
+            @for (link of supportLinks; track link) {
+            <li>
+              <a href="/"
+                class="transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">{{
+                link }}</a>
+            </li>
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">Brand</h2>
+          <ul class="mt-3 space-y-2 text-background/68">
+            @for (link of brandLinks; track link) {
+            <li>
+              <a href="/"
+                class="transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">{{
+                link }}</a>
+            </li>
+            }
+          </ul>
+        </div>
+      </nav>
+
+      <section aria-labelledby="newsletter-title" class="max-w-sm">
+        <h2 id="newsletter-title" class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">
+          Newsletter
+        </h2>
+        <p class="mt-3 text-sm leading-6 text-background/68">
+          Collection updates and simple style notes.
+        </p>
+        <form class="mt-4 flex border-b border-background/25">
+          <label class="sr-only" for="footer-email">Email address</label>
+          <input id="footer-email" type="email" autocomplete="email" placeholder="Email address"
+            class="min-h-11 flex-1 bg-transparent text-sm text-background placeholder:text-background/45 outline-none" />
+          <button type="button"
+            class="min-h-11 px-3 text-xs font-semibold uppercase tracking-[0.14em] text-accent transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+            Join
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <div
+      class="mt-8 flex flex-col gap-4 border-t border-background/12 pt-5 text-xs text-background/55 sm:flex-row sm:items-center sm:justify-between">
+      <p>&copy; 2026 Damoor</p>
+
+      <div class="flex items-center gap-4">
+        <a href="/"
+          class="transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+          Privacy
+        </a>
+
+        <a href="/"
+          class="transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+          Terms
+        </a>
+
+        <span aria-hidden="true" class="h-5 w-px bg-background/18"></span>
+
+        <!-- Instagram -->
+        <a href="/" aria-label="Instagram"
+          class="inline-flex size-10 items-center justify-center text-background/70 transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+          <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="4" width="16" height="16" rx="5" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="12" cy="12" r="3.5" stroke="currentColor" stroke-width="1.6" />
+            <path d="M17.2 6.8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </a>
+
+        <!-- Facebook -->
+        <a href="/" aria-label="Facebook"
+          class="inline-flex size-10 items-center justify-center text-background/70 transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+          <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M14 8h3V4.5c-.6-.1-1.8-.2-3.2-.2-3.1 0-5.3 1.9-5.3 5.5V13H5v4h3.5v7h4.3v-7h3.6l.6-4h-4.2v-2.8C12.8 9 13.2 8 14 8Z"
+              fill="currentColor" />
+          </svg>
+        </a>
+
+        <!-- WhatsApp -->
+        <a href="/" aria-label="WhatsApp"
+          class="inline-flex size-10 items-center justify-center text-background/70 transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+          <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+            <path d="M20 11.8a8 8 0 0 1-11.9 7L4 20l1.2-4A8 8 0 1 1 20 11.8Z" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M9.1 8.3c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.8c.1.3.1.5-.1.7l-.6.7c-.2.2-.2.4 0 .7.5.9 1.2 1.6 2 2.1.3.2.5.2.7 0l.8-.9c.2-.2.4-.3.7-.1l1.8.9c.3.1.4.3.4.5 0 .8-.4 1.6-1 2.1-.5.4-1.2.6-1.8.5-1.3-.2-2.9-.9-4.6-2.5-1.4-1.3-2.4-2.9-2.7-4.2-.2-.8 0-1.6.4-2.3Z"
+              fill="currentColor" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
