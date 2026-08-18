@@ -32,10 +32,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "src/styles.css"
-            ]
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {

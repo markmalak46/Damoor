@@ -10,14 +10,3 @@ import { RouterOutlet } from '@angular/router';
 export class App {
   protected readonly title = signal('Damoor');
 }
-
-
-//بستخدمها ف الكومبونت زي الهوم مثلا مش ف ال app
-// import { OnInit } from '@angular/core';
-// import { initFlowbite } from 'flowbite';
-
-// export class App implements OnInit {
-//     ngOnInit(): void {
-//     initFlowbite();
-//   }
-// }

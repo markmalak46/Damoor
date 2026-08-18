@@ -24,10 +24,10 @@
                     'border-green-700': registerForm.get('name')?.valid,
                     'border-red-500': registerForm.get('name')?.invalid && registerForm.get('name')?.touched
                     }" type="text" formControlName="name" id="fullname"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border appearance-none focus:outline-none focus:ring-0 peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border appearance-none focus:outline-none focus:ring-0 peer"
                     placeholder="" />
                 <label for="fullname"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -37,7 +37,7 @@
                 </label>
             </div>
             @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -53,10 +53,10 @@
             <!-- Username -->
             <div class="relative">
                 <input type="text" id="username" formControlName="username"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="username"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -69,10 +69,10 @@
             <!-- Email -->
             <div class="relative">
                 <input type="email" id="email" formControlName="email"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="email"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -82,7 +82,7 @@
                 </label>
             </div>
             @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -98,14 +98,14 @@
             <!-- Gender -->
             <div class="relative">
                 <select id="gender" formControlName="gender"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="">
                     <option selected disabled hidden value="">Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
                 <label for="gender"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -115,7 +115,7 @@
                 </label>
             </div>
             @if (registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -129,10 +129,10 @@
             <!-- Birthdate -->
             <div class="relative">
                 <input type="date" id="birthdate" formControlName="dateOfBirth"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="birthdate"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -142,7 +142,7 @@
                 </label>
             </div>
             @if (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -157,10 +157,10 @@
             <!-- Password -->
             <div class="relative">
                 <input #password type="password" id="password" formControlName="password"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="password"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -169,12 +169,12 @@
                     Password
                 </label>
                 <span (click)="showPassword(password)"
-                 class="absolute top-1/2 inset-e-4 -translate-y-3 cursor-pointer">
-                    <i [class] = "password.type === 'password' ? 'fas fa-eye-slash' : 'fas fa-eye'" class="fas"></i>
+                 class="absolute top-1/2 inset-e-4 -translate-y-3 cursor-pointer text-xs font-medium text-gray-500">
+                    {{ password.type === 'password' ? 'Show' : 'Hide' }}
                 </span>
             </div>
             @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -193,10 +193,10 @@
             <!-- Confirm Password -->
             <div class="relative">
                 <input #rePassword type="password" id="rePassword" formControlName="rePassword"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="rePassword"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -205,13 +205,13 @@
                     Confirm password
                 </label>
                 <span (click)="showPassword(rePassword)"
-                 class="absolute top-1/2 inset-e-4 -translate-y-3 cursor-pointer">
-                    <i [class] = "rePassword.type === 'password' ? 'fas fa-eye-slash' : 'fas fa-eye'" class="fas"></i>
+                 class="absolute top-1/2 inset-e-4 -translate-y-3 cursor-pointer text-xs font-medium text-gray-500">
+                    {{ rePassword.type === 'password' ? 'Show' : 'Hide' }}
                 </span>
             </div>
 
             @if (registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -232,7 +232,7 @@
                 Create New Account
 
                 @if(loading){
-                <i class="fas fa-spinner animate-spin"></i>
+                <span class="ms-2">Loading...</span>
                 }
             </button>
 

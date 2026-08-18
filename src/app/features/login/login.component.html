@@ -23,10 +23,10 @@
             <!-- Email -->
             <div class="relative">
                 <input type="email" id="login" formControlName="login"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="login"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -36,7 +36,7 @@
                 </label>
             </div>
             @if (loginForm.get('login')?.invalid && loginForm.get('login')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -53,10 +53,10 @@
             <!-- Password -->
             <div class="relative">
                 <input type="password" id="password" formControlName="password"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                     placeholder="" />
                 <label for="password"
-                    class="inline-flex items-center absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
+                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
                     <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
                         height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
@@ -66,7 +66,7 @@
                 </label>
             </div>
             @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
                 role="alert">
                 <div>
                     <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
@@ -92,7 +92,7 @@
                 Login
 
                 @if(loading){
-                <i class="fas fa-spinner animate-spin"></i>
+                <span class="ms-2">Loading...</span>
                 }
             </button>
 

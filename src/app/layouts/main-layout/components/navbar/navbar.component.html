@@ -1,111 +1,20 @@
-<nav class="fixed top-0 left-0 right-0 z-50 border-b border-default bg-neutral-primary/95 backdrop-blur-md shadow-sm">
-    <div class="max-w-screen-xl mx-auto flex items-center justify-between px-4 py-3 lg:px-6">
+<nav class="fixed inset-x-0 top-0 z-50 border-b border-border bg-primary text-white shadow-sm">
+  <div class="mx-auto flex max-w-screen-xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between lg:px-6">
+    <a routerLink="/feed" class="text-xl font-semibold tracking-wide">Route Posts</a>
 
-        <!-- Logo -->
-        <a routerLink="/feed" class="flex items-center gap-3 group">
-            <div
-                class="flex items-center justify-center w-10 h-10 rounded-xl bg-neutral-secondary-soft border border-default transition group-hover:scale-105">
-                <img src="/assets/imgs/route.png" class="h-6 w-6 object-contain" alt="Route Posts Logo" />
-            </div>
-            <span class="text-xl font-bold text-heading tracking-tight">Route Posts</span>
-        </a>
-
-        <!-- Right Side -->
-        <div class="flex items-center gap-3 md:order-2">
-
-            <!-- User Button -->
-            <button type="button" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-                data-dropdown-placement="bottom"
-                class="flex items-center gap-2 rounded-full border border-default bg-neutral-primary px-1 py-1 pe-3 shadow-sm transition hover:bg-neutral-secondary-soft focus:outline-none focus:ring-2 focus:ring-neutral-tertiary">
-                <span class="sr-only">Open user menu</span>
-                <img class="w-9 h-9 rounded-full object-cover border border-default-medium"
-                    src="/assets/imgs/default-profile.png" alt="user photo" />
-                <span class="hidden sm:block text-sm font-medium text-heading">Joseph</span>
-            </button>
-
-            <!-- Dropdown -->
-            <div id="user-dropdown"
-                class="z-50 hidden w-56 overflow-hidden rounded-2xl border border-default bg-neutral-primary shadow-xl">
-                <div class="px-4 py-4 border-b border-default">
-                    <p class="text-sm font-semibold text-heading">Joseph McFall</p>
-                    <p class="text-xs text-body truncate mt-1">name@flowbite.com</p>
-                </div>
-
-                <ul class="p-2 text-sm text-body">
-                    <li>
-                        <a routerLink="/profile"
-                            class="flex items-center gap-2 rounded-xl px-3 py-2.5 transition hover:bg-neutral-secondary-soft hover:text-heading">
-                            <i class="fa-regular fa-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a routerLink="/change"
-                            class="flex items-center gap-2 rounded-xl px-3 py-2.5 transition hover:bg-neutral-secondary-soft hover:text-heading">
-                            <i class="fa-solid fa-gear"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a (click)="logOut()"
-                            class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-red-500 transition hover:bg-red-50">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span>Log out</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Mobile Menu Button -->
-            <button data-collapse-toggle="navbar-user" type="button"
-                class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-default text-body transition hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary md:hidden"
-                aria-controls="navbar-user" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Navbar Links -->
-        <div class="hidden w-full md:order-1 md:block md:w-auto" id="navbar-user">
-            <ul
-                class="mt-4 flex flex-col gap-2 rounded-2xl border border-default bg-neutral-secondary-soft p-3 text-sm font-medium md:mt-0 md:flex-row md:items-center md:gap-3 md:border-0 md:bg-transparent md:p-0">
-
-                <li>
-                    <a routerLink="/feed" routerLinkActive="bg-brand/10 text-brand shadow-sm border border-brand/20"
-                        class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-body border border-transparent transition-all duration-200 hover:bg-neutral-secondary-soft hover:text-heading">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Feed</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a routerLink="/profile" routerLinkActive="bg-brand/10 text-brand shadow-sm border border-brand/20"
-                        class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-body border border-transparent transition-all duration-200 hover:bg-neutral-secondary-soft hover:text-heading">
-                        <i class="fa-regular fa-user"></i>
-                        <span>Profile</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a routerLink="/notification"
-                        routerLinkActive="bg-brand/10 text-brand shadow-sm border border-brand/20"
-                        class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-body border border-transparent transition-all duration-200 hover:bg-neutral-secondary-soft hover:text-heading">
-                        <i class="fa-regular fa-bell"></i>
-                        <span>Notifications</span>
-                    </a>
-                </li>
-
-                <li class="md:hidden">
-                    <a (click)="logOut()"
-                        class="flex items-center gap-2 rounded-xl px-4 py-2.5 text-red-500 transition hover:bg-red-50">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <span>Log out</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <div class="flex flex-wrap items-center gap-2 text-sm font-medium">
+      <a routerLink="/feed" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white">
+        Feed
+      </a>
+      <a routerLink="/profile" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white">
+        Profile
+      </a>
+      <a routerLink="/notification" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white">
+        Notifications
+      </a>
+      <button type="button" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white" (click)="logOut()">
+        Log out
+      </button>
     </div>
+  </div>
 </nav>

@@ -2,15 +2,12 @@
 @import "@fontsource/inter/latin-500.css";
 @import "@fontsource/inter/latin-600.css";
 @import "@fontsource/inter/latin-700.css";
-@import "@fontsource/cormorant-garamond/latin-400.css";
-@import "@fontsource/cormorant-garamond/latin-500.css";
-@import "@fontsource/cormorant-garamond/latin-600.css";
-@import "@fontsource/cormorant-garamond/latin-700.css";
+@import "@fontsource/italiana/latin-400.css";
+@import "@fontsource/markazi-text/arabic-400.css";
+@import "@fontsource/markazi-text/arabic-500.css";
+@import "@fontsource/markazi-text/arabic-600.css";
+@import "@fontsource/markazi-text/arabic-700.css";
 @import "tailwindcss";
-
-@import "flowbite/src/themes/default";
-@plugin "flowbite/plugin";
-@source "../node_modules/flowbite";
 
 :root {
   --damoor-primary: #071023;
@@ -28,8 +25,9 @@
   --color-border: rgba(23, 24, 26, 0.16);
   --color-soft-border: rgba(198, 185, 171, 0.52);
 
-  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-serif: "Italiana", "Markazi Text", Georgia, "Times New Roman", serif;
+  --font-serif-ar: "Markazi Text", serif;
+  --font-sans: "Inter", Arial, sans-serif;
   --font-display: var(--font-serif);
   --font-heading: var(--font-serif);
   --font-body: var(--font-sans);
@@ -69,6 +67,25 @@
 
 html {
   background-color: var(--color-background);
+  direction: ltr;
+}
+
+html[lang="ar"] {
+  --font-serif: var(--font-serif-ar);
+  direction: rtl;
+}
+
+html[lang="en"] {
+  direction: ltr;
+}
+
+:where(:lang(ar)) {
+  --font-serif: var(--font-serif-ar);
+  direction: rtl;
+}
+
+:where(:lang(en)) {
+  direction: ltr;
 }
 
 body {
