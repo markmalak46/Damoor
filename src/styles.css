@@ -1,20 +1,82 @@
-/* You can add global styles to this file, and also import other style files */
+@import "@fontsource/inter/latin-400.css";
+@import "@fontsource/inter/latin-500.css";
+@import "@fontsource/inter/latin-600.css";
+@import "@fontsource/inter/latin-700.css";
+@import "@fontsource/cormorant-garamond/latin-400.css";
+@import "@fontsource/cormorant-garamond/latin-500.css";
+@import "@fontsource/cormorant-garamond/latin-600.css";
+@import "@fontsource/cormorant-garamond/latin-700.css";
 @import "tailwindcss";
 
 @import "flowbite/src/themes/default";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
-@utility container{
-    margin-inline: auto;
+:root {
+  --damoor-primary: #071023;
+  --damoor-gold: #c79954;
+  --damoor-background: #f4efe8;
+  --damoor-accent: #c6b9ab;
+  --damoor-text: #17181a;
+
+  --color-background: var(--damoor-background);
+  --color-surface: #fbf8f3;
+  --color-text: var(--damoor-text);
+  --color-text-muted: #6f6a63;
+  --color-primary: var(--damoor-primary);
+  --color-accent: var(--damoor-gold);
+  --color-border: rgba(23, 24, 26, 0.16);
+  --color-soft-border: rgba(198, 185, 171, 0.52);
+
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-serif);
+  --font-heading: var(--font-serif);
+  --font-body: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-label: var(--font-sans);
+  --font-caption: var(--font-sans);
 }
 
-@theme{
-    --color-mainColor: #00298D;
-    --color-secondColor: #F0F2F5;
+@utility container {
+  margin-inline: auto;
 }
 
-body{
-    background-color: var(--color-secondColor);
-    font-family: "SN Pro", sans-serif;
+@theme {
+  --color-damoor-primary: var(--damoor-primary);
+  --color-damoor-gold: var(--damoor-gold);
+  --color-damoor-background: var(--damoor-background);
+  --color-damoor-accent: var(--damoor-accent);
+  --color-damoor-text: var(--damoor-text);
+  --color-background: var(--damoor-background);
+  --color-surface: #fbf8f3;
+  --color-text: var(--damoor-text);
+  --color-text-muted: #6f6a63;
+  --color-primary: var(--damoor-primary);
+  --color-accent: var(--damoor-gold);
+  --color-border: rgba(23, 24, 26, 0.16);
+  --color-soft-border: rgba(198, 185, 171, 0.52);
+
+  --font-damoor-serif: var(--font-serif);
+  --font-damoor-sans: var(--font-sans);
+  --font-display: var(--font-serif);
+  --font-heading: var(--font-serif);
+  --font-body: var(--font-sans);
+  --font-ui: var(--font-sans);
+  --font-label: var(--font-sans);
+  --font-caption: var(--font-sans);
+}
+
+html {
+  background-color: var(--color-background);
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }

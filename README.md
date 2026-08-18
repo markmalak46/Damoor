@@ -1,6 +1,6 @@
-# Social
+# Damoor
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.15.
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) and is being prepared as the frontend for Damoor.
 
 ## Development server
 
