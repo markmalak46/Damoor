@@ -4,8 +4,6 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { LoginComponent } from './features/login/login.component';
 import { RegisterComponent } from './features/register/register.component';
 import { ForgotPasswordComponent } from './features/forgot-password/forgot-password.component';
-import { FeedComponent } from './features/feed/feed.component';
-import { ProfileComponent } from './features/profile/profile.component';
 import { NotificationComponent } from './features/notification/notification.component';
 import { ChangePasswordComponent } from './features/change-password/change-password.component';
 import { NotfoundComponent } from './features/notfound/notfound.component';
@@ -29,8 +27,6 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
-      { path: 'feed', component: FeedComponent, title: 'Timeline' },
-      { path: 'profile', component: ProfileComponent, title: 'Profile' },
       { path: 'notification', component: NotificationComponent, title: 'Notifications' },
       { path: 'change', component: ChangePasswordComponent, title: 'Change Password' },
     ],
