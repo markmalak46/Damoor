@@ -11,7 +11,7 @@ import { authGuard } from './core/auth/guards/auth-guard';
 import { guestGuard } from './core/auth/guards/guest-guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', component: MainLayoutComponent, pathMatch: 'full', title: 'Damoor' },
   {
     path: '',
     component: AuthLayoutComponent,

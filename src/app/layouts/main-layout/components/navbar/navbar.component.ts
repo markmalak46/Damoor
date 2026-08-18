@@ -1,6 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../../core/auth/services/auth.service';
+
+interface NavigationItem {
+  label: string;
+  route?: string;
+}
 
 @Component({
   selector: 'app-navbar',
@@ -9,9 +13,21 @@ import { AuthService } from '../../../../core/auth/services/auth.service';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
-  private readonly authService = inject(AuthService);
+  protected readonly isMobileMenuOpen = signal(false);
 
-  logOut(): void {
-    this.authService.signOut();
+  protected readonly primaryNavigation: NavigationItem[] = [
+    { label: 'Home', route: '/' },
+    { label: 'Shop' },
+    { label: 'Collections' },
+    { label: 'About Us' },
+    { label: 'Contact' },
+  ];
+
+  protected toggleMobileMenu(): void {
+    this.isMobileMenuOpen.update((isOpen) => !isOpen);
+  }
+
+  protected closeMobileMenu(): void {
+    this.isMobileMenuOpen.set(false);
   }
 }

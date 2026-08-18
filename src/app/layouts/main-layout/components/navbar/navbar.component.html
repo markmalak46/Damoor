@@ -1,20 +1,180 @@
-<nav class="fixed inset-x-0 top-0 z-50 border-b border-border bg-primary text-white shadow-sm">
-  <div class="mx-auto flex max-w-screen-xl flex-col gap-3 px-4 py-3 md:flex-row md:items-center md:justify-between lg:px-6">
-    <a routerLink="/feed" class="text-xl font-semibold tracking-wide">Route Posts</a>
+<header class="sticky top-0 z-50 border-b border-soft-border bg-surface-light/95 text-text backdrop-blur-sm">
+  <a
+    href="#main-content"
+    class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-surface-light"
+  >
+    Skip to content
+  </a>
 
-    <div class="flex flex-wrap items-center gap-2 text-sm font-medium">
-      <a routerLink="/feed" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white">
-        Feed
-      </a>
-      <a routerLink="/profile" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white">
-        Profile
-      </a>
-      <a routerLink="/notification" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white">
-        Notifications
-      </a>
-      <button type="button" class="rounded-md px-3 py-2 text-white/85 transition hover:bg-white/10 hover:text-white" (click)="logOut()">
-        Log out
+  <div class="mx-auto grid min-h-[4.25rem] max-w-7xl grid-cols-[3rem_1fr_auto] items-center gap-3 px-4 sm:min-h-[4.75rem] sm:grid-cols-[8rem_1fr_auto] sm:px-6 lg:min-h-[5.25rem] lg:grid-cols-[12rem_minmax(28rem,1fr)_auto] lg:px-8 xl:grid-cols-[14rem_minmax(32rem,1fr)_auto]">
+    <button
+      type="button"
+      class="inline-flex size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
+      aria-label="Open navigation menu"
+      [attr.aria-expanded]="isMobileMenuOpen()"
+      aria-controls="mobile-navigation"
+      (click)="toggleMobileMenu()"
+    >
+      @if (isMobileMenuOpen()) {
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      } @else {
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
+      }
+    </button>
+
+    <a
+      routerLink="/"
+      aria-label="Damoor home"
+      class="inline-flex items-center justify-self-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:justify-self-start"
+      (click)="closeMobileMenu()"
+    >
+      <img
+        src="/assets/imgs/Dark-word-Horizontal.svg"
+        alt="Damoor"
+        class="h-auto w-28 sm:w-36 lg:w-40"
+        width="2172"
+        height="724"
+      />
+    </a>
+
+    <nav aria-label="Primary navigation" class="hidden justify-center lg:flex">
+      <div class="flex items-center gap-7 xl:gap-9">
+        @for (item of primaryNavigation; track item.label) {
+          @if (item.route) {
+            <a
+              [routerLink]="item.route"
+              class="group py-8 text-xs font-medium uppercase tracking-[0.16em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              <span class="bg-gradient-to-r from-accent to-accent bg-[length:0_1px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
+                {{ item.label }}
+              </span>
+            </a>
+          } @else {
+            <button
+              type="button"
+              class="group py-8 text-xs font-medium uppercase tracking-[0.16em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+            >
+              <span class="bg-gradient-to-r from-accent to-accent bg-[length:0_1px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
+                {{ item.label }}
+              </span>
+            </button>
+          }
+        }
+      </div>
+    </nav>
+
+    <div class="flex items-center justify-end gap-1 sm:gap-2">
+      <button
+        type="button"
+        class="inline-flex size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
+        aria-label="Search"
+      >
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+          <path d="m20 20-4.5-4.5M18 10.5a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        </svg>
       </button>
+
+      <button
+        type="button"
+        class="hidden size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:inline-flex"
+        aria-label="Wishlist"
+      >
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+          <path d="M12 20.25s-7.5-4.4-7.5-10.2A4.25 4.25 0 0 1 12 7.3a4.25 4.25 0 0 1 7.5 2.75c0 5.8-7.5 10.2-7.5 10.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        class="inline-flex size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        aria-label="Shopping cart"
+      >
+        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+          <path d="M7 8.5h10l1.25 11H5.75L7 8.5ZM9 8.5a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <a
+        routerLink="/login"
+        class="hidden px-2 py-3 text-xs font-medium uppercase tracking-[0.14em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent lg:inline-flex"
+      >
+        Sign In
+      </a>
+
+      <a
+        routerLink="/register"
+        class="hidden min-h-10 items-center border border-primary px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-primary hover:text-surface-light focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent lg:inline-flex"
+      >
+        Sign Up
+      </a>
     </div>
   </div>
-</nav>
+
+  <div
+    id="mobile-navigation"
+    class="grid border-t border-soft-border bg-surface-light transition-[grid-template-rows] duration-300 lg:hidden"
+    [class.grid-rows-[1fr]]="isMobileMenuOpen()"
+    [class.grid-rows-[0fr]]="!isMobileMenuOpen()"
+  >
+    <div class="overflow-hidden">
+      <nav aria-label="Mobile primary navigation" class="px-4 pb-7 pt-4 sm:px-6">
+        <div class="flex flex-col border-y border-soft-border/80">
+          @for (item of primaryNavigation; track item.label) {
+            @if (item.route) {
+              <a
+                [routerLink]="item.route"
+                class="flex min-h-12 items-center border-b border-soft-border/70 py-3.5 text-base font-medium leading-6 text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:text-lg"
+                (click)="closeMobileMenu()"
+              >
+                {{ item.label }}
+              </a>
+            } @else {
+              <button
+                type="button"
+                class="flex min-h-12 items-center border-b border-soft-border/70 py-3.5 text-left text-base font-medium leading-6 text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:text-lg"
+              >
+                {{ item.label }}
+              </button>
+            }
+          }
+        </div>
+
+        <div class="mt-5 flex items-center gap-5 border-b border-soft-border/80 pb-5">
+          <a
+            routerLink="/login"
+            class="text-sm font-medium uppercase tracking-[0.14em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            (click)="closeMobileMenu()"
+          >
+            Sign In
+          </a>
+          <a
+            routerLink="/register"
+            class="inline-flex min-h-10 w-fit items-center border border-primary/70 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-primary hover:text-surface-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            (click)="closeMobileMenu()"
+          >
+            Create Account
+          </a>
+        </div>
+
+        <div class="mt-5 flex items-center gap-6 text-sm font-medium text-text-muted">
+          <button type="button" class="inline-flex min-h-10 items-center gap-2 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+            <svg aria-hidden="true" class="size-4 text-accent" viewBox="0 0 24 24" fill="none">
+              <path d="M12 20.25s-7.5-4.4-7.5-10.2A4.25 4.25 0 0 1 12 7.3a4.25 4.25 0 0 1 7.5 2.75c0 5.8-7.5 10.2-7.5 10.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Wishlist
+          </button>
+          <button type="button" class="inline-flex min-h-10 items-center gap-2 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+            <svg aria-hidden="true" class="size-4 text-accent" viewBox="0 0 24 24" fill="none">
+              <path d="M7 8.5h10l1.25 11H5.75L7 8.5ZM9 8.5a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            Cart
+          </button>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
