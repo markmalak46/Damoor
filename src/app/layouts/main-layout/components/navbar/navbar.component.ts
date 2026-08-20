@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, HostListener, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 interface NavigationItem {
@@ -19,7 +19,7 @@ export class NavbarComponent {
     { label: 'Home', route: '/' },
     { label: 'Shop' },
     { label: 'Collections' },
-    { label: 'About Us' },
+    { label: 'About' },
     { label: 'Contact' },
   ];
 
@@ -29,5 +29,10 @@ export class NavbarComponent {
 
   protected closeMobileMenu(): void {
     this.isMobileMenuOpen.set(false);
+  }
+
+  @HostListener('document:keydown.escape')
+  protected closeMobileMenuOnEscape(): void {
+    this.closeMobileMenu();
   }
 }

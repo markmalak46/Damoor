@@ -15,9 +15,9 @@ export const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
-    canActivate: [guestGuard],
+    // canActivate: [guestGuard],
     children: [
-      { path: 'login', component: LoginComponent, title: 'Login' },
+      { path: 'login', component: LoginComponent, title: 'Sign in' },
       { path: 'register', component: RegisterComponent, title: 'Register' },
       { path: 'forget', component: ForgotPasswordComponent, title: 'Forgot Password' },
     ],
@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       { path: 'notification', component: NotificationComponent, title: 'Notifications' },
       { path: 'change', component: ChangePasswordComponent, title: 'Change Password' },

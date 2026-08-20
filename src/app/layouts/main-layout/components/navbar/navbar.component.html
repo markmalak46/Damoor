@@ -1,133 +1,134 @@
-<header class="sticky top-0 z-50 border-b border-soft-border bg-surface-light/95 text-text backdrop-blur-sm">
+<header class="sticky top-0 z-50 bg-primary text-background">
   <a
     href="#main-content"
-    class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-primary focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-surface-light"
+    class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-surface-light focus:px-4 focus:py-3 focus:text-sm focus:font-medium focus:text-primary"
   >
     Skip to content
   </a>
 
-  <div class="mx-auto grid min-h-[4.25rem] max-w-7xl grid-cols-[3rem_1fr_auto] items-center gap-3 px-4 sm:min-h-[4.75rem] sm:grid-cols-[8rem_1fr_auto] sm:px-6 lg:min-h-[5.25rem] lg:grid-cols-[12rem_minmax(28rem,1fr)_auto] lg:px-8 xl:grid-cols-[14rem_minmax(32rem,1fr)_auto]">
+  <div class="mx-auto grid min-h-17 w-full max-w-384 grid-cols-[3rem_1fr_auto] items-center gap-3 px-4 sm:px-6 lg:min-h-20 lg:grid-cols-[minmax(24rem,1fr)_auto_minmax(24rem,1fr)] lg:px-10 xl:px-12">
     <button
       type="button"
-      class="inline-flex size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
+      class="inline-flex size-10 items-center justify-center text-background transition hover:text-accent cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
       aria-label="Open navigation menu"
       [attr.aria-expanded]="isMobileMenuOpen()"
       aria-controls="mobile-navigation"
       (click)="toggleMobileMenu()"
     >
       @if (isMobileMenuOpen()) {
-        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
-          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <svg aria-hidden="true" class="size-6" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" />
         </svg>
       } @else {
-        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+        <svg aria-hidden="true" class="size-6" viewBox="0 0 24 24" fill="none">
           <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
         </svg>
       }
     </button>
 
-    <a
-      routerLink="/"
-      aria-label="Damoor home"
-      class="inline-flex items-center justify-self-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:justify-self-start"
-      (click)="closeMobileMenu()"
-    >
-      <img
-        src="/assets/imgs/Dark-word-Horizontal.svg"
-        alt="Damoor"
-        class="h-auto w-28 sm:w-36 lg:w-40"
-        width="2172"
-        height="724"
-      />
-    </a>
-
-    <nav aria-label="Primary navigation" class="hidden justify-center lg:flex">
-      <div class="flex items-center gap-7 xl:gap-9">
+    <nav aria-label="Primary navigation" class="hidden justify-self-start lg:flex">
+      <div class="flex items-center gap-6 xl:gap-8">
         @for (item of primaryNavigation; track item.label) {
           @if (item.route) {
             <a
               [routerLink]="item.route"
-              class="group py-8 text-xs font-medium uppercase tracking-[0.16em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              class="text-xs font-medium uppercase tracking-[0.04em] transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent cursor-pointer"
+              [class.text-accent]="item.label === 'Home'"
+              [class.text-background]="item.label !== 'Home'"
             >
-              <span class="bg-gradient-to-r from-accent to-accent bg-[length:0_1px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
-                {{ item.label }}
-              </span>
+              {{ item.label }}
             </a>
           } @else {
             <button
               type="button"
-              class="group py-8 text-xs font-medium uppercase tracking-[0.16em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+              class="text-xs font-medium uppercase tracking-[0.04em] text-background transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent cursor-pointer"
             >
-              <span class="bg-gradient-to-r from-accent to-accent bg-[length:0_1px] bg-left-bottom bg-no-repeat pb-1 transition-[background-size] duration-300 group-hover:bg-[length:100%_1px]">
-                {{ item.label }}
-              </span>
+              {{ item.label }}
             </button>
           }
         }
       </div>
     </nav>
 
-    <div class="flex items-center justify-end gap-1 sm:gap-2">
-      <button
-        type="button"
-        class="inline-flex size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
-        aria-label="Search"
-      >
-        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
-          <path d="m20 20-4.5-4.5M18 10.5a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
-        </svg>
-      </button>
+    <a
+      routerLink="/"
+      aria-label="Damoor home"
+      class="inline-flex items-center justify-self-center focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+      (click)="closeMobileMenu()"
+    >
+      <img
+        src="/assets/imgs/Light-word-Horizontal.svg"
+        alt="Damoor"
+        class="h-auto w-32 sm:w-40 lg:w-44"
+      />
+    </a>
 
-      <button
-        type="button"
-        class="hidden size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:inline-flex"
-        aria-label="Wishlist"
-      >
-        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
-          <path d="M12 20.25s-7.5-4.4-7.5-10.2A4.25 4.25 0 0 1 12 7.3a4.25 4.25 0 0 1 7.5 2.75c0 5.8-7.5 10.2-7.5 10.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </button>
-
-      <button
-        type="button"
-        class="inline-flex size-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        aria-label="Shopping cart"
-      >
-        <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
-          <path d="M7 8.5h10l1.25 11H5.75L7 8.5ZM9 8.5a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </button>
-
+    <div class="flex items-center justify-end gap-2 justify-self-end text-background lg:gap-0">
       <a
         routerLink="/login"
-        class="hidden px-2 py-3 text-xs font-medium uppercase tracking-[0.14em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent lg:inline-flex"
+        class="hidden min-h-9 items-center gap-2.5 px-2 text-xs font-medium uppercase tracking-[0.04em] transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent lg:inline-flex"
       >
-        Sign In
+          <svg aria-hidden="true" class="size-5 xl:size-6" viewBox="0 0 24 24" fill="none">
+          <path d="M18.5 20.5a6.5 6.5 0 0 0-13 0M15.5 7.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+        </svg>
+        Sign in
       </a>
 
-      <a
-        routerLink="/register"
-        class="hidden min-h-10 items-center border border-primary px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-primary hover:text-surface-light focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent lg:inline-flex"
+      <button
+        type="button"
+        class="inline-flex size-10 cursor-pointer items-center justify-center transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
+        aria-label="Wishlist"
       >
-        Sign Up
-      </a>
+        <svg aria-hidden="true" class="size-6" viewBox="0 0 24 24" fill="none">
+          <path d="M12 20.25s-7.5-4.4-7.5-10.2A4.25 4.25 0 0 1 12 7.3a4.25 4.25 0 0 1 7.5 2.75c0 5.8-7.5 10.2-7.5 10.2Z" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <span aria-hidden="true" class="hidden h-6 w-px bg-background/30 lg:block lg:mx-3 xl:mx-4"></span>
+
+      <button
+        type="button"
+        class="hidden size-9 cursor-pointer items-center justify-center transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:inline-flex"
+        aria-label="Wishlist"
+      >
+        <svg aria-hidden="true" class="size-6" viewBox="0 0 24 24" fill="none">
+          <path d="M12 20.25s-7.5-4.4-7.5-10.2A4.25 4.25 0 0 1 12 7.3a4.25 4.25 0 0 1 7.5 2.75c0 5.8-7.5 10.2-7.5 10.2Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <span aria-hidden="true" class="hidden h-6 w-px bg-background/30 lg:block lg:mx-3 xl:mx-4"></span>
+
+      <button
+        type="button"
+        class="relative inline-flex cursor-pointer size-10 items-center justify-center transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:size-9"
+        aria-label="Shopping cart"
+      >
+        <svg aria-hidden="true" class="size-6 xl:size-7" viewBox="0 0 24 24" fill="none">
+          <path d="M7 8.5h10l1.25 11H5.75L7 8.5ZM9 8.5a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="absolute -right-1 top-1 inline-flex size-5 items-center justify-center rounded-full bg-accent text-[0.7rem] font-semibold text-primary lg:-right-1 lg:top-0 lg:size-5 lg:text-[0.7rem]">
+          0
+        </span>
+      </button>
     </div>
   </div>
 
   <div
     id="mobile-navigation"
-    class="grid border-t border-soft-border bg-surface-light transition-[grid-template-rows] duration-300 lg:hidden"
+    class="grid border-t border-background/15 bg-primary transition-[grid-template-rows] duration-300 lg:hidden"
     [class.grid-rows-[1fr]]="isMobileMenuOpen()"
     [class.grid-rows-[0fr]]="!isMobileMenuOpen()"
   >
     <div class="overflow-hidden">
-      <nav aria-label="Mobile primary navigation" class="px-4 pb-7 pt-4 sm:px-6">
-        <div class="flex flex-col border-y border-soft-border/80">
+      <nav aria-label="Mobile primary navigation" class="px-4 pb-5 pt-4 sm:px-6">
+        <div class="flex flex-col">
           @for (item of primaryNavigation; track item.label) {
             @if (item.route) {
               <a
                 [routerLink]="item.route"
-                class="flex min-h-12 items-center border-b border-soft-border/70 py-3.5 text-base font-medium leading-6 text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:text-lg"
+                class="flex min-h-12 items-center border-b border-background/10 uppercase tracking-[0.08em] transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent text-[0.8rem]"
+                [class.text-accent]="item.label === 'Home'"
+                [class.text-background]="item.label !== 'Home'"
                 (click)="closeMobileMenu()"
               >
                 {{ item.label }}
@@ -135,7 +136,7 @@
             } @else {
               <button
                 type="button"
-                class="flex min-h-12 items-center border-b border-soft-border/70 py-3.5 text-left text-base font-medium leading-6 text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:text-lg"
+                class="flex min-h-12 items-center border-b border-background/10 text-left uppercase tracking-[0.08em] text-background transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent text-[0.8rem]"
               >
                 {{ item.label }}
               </button>
@@ -143,36 +144,28 @@
           }
         </div>
 
-        <div class="mt-5 flex items-center gap-5 border-b border-soft-border/80 pb-5">
+        <div class="mt-12 space-y-3">
           <a
             routerLink="/login"
-            class="text-sm font-medium uppercase tracking-[0.14em] text-text/76 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            class="inline-flex min-h-12 w-full items-center font-medium justify-center gap-3 border border-accent px-5 text-[0.8rem] uppercase tracking-[0.14em] text-accent transition hover:bg-accent hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             (click)="closeMobileMenu()"
           >
-            Sign In
+            <svg aria-hidden="true" class="size-5" viewBox="0 0 24 24" fill="none">
+              <path d="M18.5 20.5a6.5 6.5 0 0 0-13 0M15.5 7.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            Sign in
           </a>
+        </div>
+
+        <div class="mt-3 flex items-center justify-center gap-3 text-xs text-background/80 sm:text-sm">
+          <span>New here?</span>
           <a
             routerLink="/register"
-            class="inline-flex min-h-10 w-fit items-center border border-primary/70 px-4 text-xs font-semibold uppercase tracking-[0.14em] text-primary transition hover:bg-primary hover:text-surface-light focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            class="inline-flex min-h-9 items-center font-medium uppercase tracking-[0.12em] text-accent transition hover:text-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             (click)="closeMobileMenu()"
           >
             Create Account
           </a>
-        </div>
-
-        <div class="mt-5 flex items-center gap-6 text-sm font-medium text-text-muted">
-          <button type="button" class="inline-flex min-h-10 items-center gap-2 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-            <svg aria-hidden="true" class="size-4 text-accent" viewBox="0 0 24 24" fill="none">
-              <path d="M12 20.25s-7.5-4.4-7.5-10.2A4.25 4.25 0 0 1 12 7.3a4.25 4.25 0 0 1 7.5 2.75c0 5.8-7.5 10.2-7.5 10.2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            Wishlist
-          </button>
-          <button type="button" class="inline-flex min-h-10 items-center gap-2 transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-            <svg aria-hidden="true" class="size-4 text-accent" viewBox="0 0 24 24" fill="none">
-              <path d="M7 8.5h10l1.25 11H5.75L7 8.5ZM9 8.5a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            Cart
-          </button>
         </div>
       </nav>
     </div>
