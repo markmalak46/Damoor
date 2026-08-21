@@ -1,108 +1,182 @@
-<div class="min-h-screen bg-blue-950 flex items-center justify-center p-6">
+<section class="min-h-screen bg-surface-light text-primary">
+  <div class="grid min-h-screen lg:grid-cols-[0.6fr_0.40fr]">
+    <aside
+      class="relative hidden min-h-screen overflow-hidden bg-[url('/assets/imgs/SignUP-bg.png')] bg-cover bg-center lg:block">
+      <div class="absolute inset-0 bg-background/10"></div>
 
-    <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
-
-        <!-- Tabs -->
-        <div class="flex mb-6 border-b">
-            <a routerLink="/login"
-                class="w-1/2 text-center py-3 font-semibold border-b-2 border-blue-600 text-blue-600">
-                Login
-            </a>
-
-            <a routerLink="/register" class="w-1/2 text-center py-3 text-gray-500 hover:text-blue-600">
-                Register
-            </a>
+      <div class="relative flex h-full flex-col justify-start px-14 py-12 xl:px-16">
+        <div>
+          <img src="/assets/imgs/Dark-word-Horizontal.svg" alt="Damoor" class="h-auto w-64 mb-24  xl:w-80 xl:mb-16"
+            width="2172" height="724" />
         </div>
 
-        <h2 class="text-2xl font-bold text-gray-800">Welcome Back</h2>
-        <p class="text-sm text-gray-500 mb-6">Login to your account</p>
+        <div class="max-w-md">
+          <h1 class="font-display text-[4.2rem] leading-[0.96] text-primary xl:text-[4.8rem]">
+            Timeless<br />
+            style.<br />
+            <span class="text-accent">Made to<br />be yours.</span>
+          </h1>
+          <div class="mt-5 h-px w-12 bg-accent"></div>
+          <p class="mt-5 text-xs font-bold uppercase tracking-[0.26em] text-primary">
+            Clothing for men &amp; women
+          </p>
+          <p class="mt-2 text-[0.68rem] font-medium uppercase tracking-[0.22em] text-primary/72">
+            Rooted in heritage. Designed for today.
+          </p>
+        </div>
+      </div>
+    </aside>
 
-        
-        <form [formGroup]="loginForm" (ngSubmit)="submitForm()" class="space-y-4">
+    <div class="flex min-h-screen items-center justify-center bg-surface-light px-5 py-8 sm:px-8 lg:px-8 xl:px-10">
+      <div class="w-full max-w-md">
+        <div class="text-center">
+          <p class="text-xs font-semibold uppercase tracking-[0.36em] text-accent">Welcome Back</p>
+          <h2 class="mt-3 font-display text-4xl leading-none text-primary sm:text-5xl">
+            Sign in to Damoor
+          </h2>
+          <div class="mx-auto mt-5 h-px w-10 bg-accent"></div>
+          <p class="mt-5 text-sm leading-6 text-text">
+            Access your account and continue your refined shopping experience.
+          </p>
+        </div>
 
-            <!-- Email -->
+        @if (apiError()) {
+          <div class="mt-7 border border-red-200 bg-red-50 px-4 py-3 text-sm leading-5 text-red-800" role="alert">
+            {{ apiError() }}
+          </div>
+        }
+
+        <form [formGroup]="signInForm" (ngSubmit)="submit()" class="mt-7 space-y-3" novalidate>
+          <div>
+            <label for="email" class="sr-only">Email Address</label>
             <div class="relative">
-                <input type="email" id="login" formControlName="login"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder="" />
-                <label for="login"
-                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
-                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                    </svg>
-                    Email address
-                </label>
+              <span class="absolute inset-y-0 start-0 inline-flex w-11 items-center justify-center text-accent">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="m4.5 7.5 6.9 5.1a1 1 0 0 0 1.2 0l6.9-5.1M5 18.5h14a1.5 1.5 0 0 0 1.5-1.5V7A1.5 1.5 0 0 0 19 5.5H5A1.5 1.5 0 0 0 3.5 7v10A1.5 1.5 0 0 0 5 18.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </span>
+              <input
+                id="email"
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                [attr.aria-invalid]="shouldShowError('email')"
+                [attr.aria-describedby]="shouldShowError('email') ? errorId('email') : null"
+                class="min-h-11 w-full border border-soft-border bg-transparent px-11 text-sm text-text outline-none transition placeholder:text-text placeholder:opacity-50 focus:border-accent"
+                placeholder="Email Address"
+              />
             </div>
-            @if (loginForm.get('login')?.invalid && loginForm.get('login')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
-                role="alert">
-                <div>
-                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-                        @if (loginForm.get('login')?.hasError('required')) {
-                        <li>email or username is required</li>
-                        } @else if (loginForm.get('login')?.hasError('minlength')) {
-                        <li>must ba at least 3 characters</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-            }
-           
-            <!-- Password -->
-            <div class="relative">
-                <input type="password" id="password" formControlName="password"
-                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-800 bg-transparent rounded-md border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    placeholder="" />
-                <label for="password"
-                    class="inline-flex items-center absolute text-sm text-gray-600 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1">
-                    <svg class="w-4 h-4 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
-                        height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-width="2"
-                            d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z" />
-                    </svg>
-                    Password
-                </label>
-            </div>
-            @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-            <div class="flex p-3 mb-4 text-sm text-red-800 rounded-md bg-red-50 border border-red-200"
-                role="alert">
-                <div>
-                    <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
-                        @if (loginForm.get('password')?.hasError('required')) {
-                        <li>Password is required</li>
-                        }
-                        @else if (loginForm.get('password')?.hasError('pattern')) {
-                        <li>Password must contain at least 8 characters, 1 uppercase, 1 number and 1 special character
-                        </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-            }
-
-    
-
-          
-            
-            <!-- Button -->
-            <button [disabled]="loading"
-                class="disabled:bg-gray-500 disabled:cursor-not-allowed w-full bg-blue-700 text-white py-3 cursor-pointer rounded-lg hover:bg-blue-800 transition">
-                Login
-
-                @if(loading){
-                <span class="ms-2">Loading...</span>
+            @if (shouldShowError('email')) {
+              <p [id]="errorId('email')" class="mt-1 text-xs text-red-800">
+                @if (signInForm.controls.email.hasError('required')) {
+                  Email is required.
+                } @else {
+                  Enter a valid email address.
                 }
-            </button>
-
-            @if (msgError){
-            <p class="text-center text-red-800 p-2">{{msgError}}</p>
+              </p>
             }
+          </div>
 
-            
+          <div>
+            <label for="password" class="sr-only">Password</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 start-0 inline-flex w-11 items-center justify-center text-accent">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M7.5 10V8a4.5 4.5 0 0 1 9 0v2M6.5 10h11A1.5 1.5 0 0 1 19 11.5v7A1.5 1.5 0 0 1 17.5 20h-11A1.5 1.5 0 0 1 5 18.5v-7A1.5 1.5 0 0 1 6.5 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </span>
+              <input
+                id="password"
+                [type]="showPassword() ? 'text' : 'password'"
+                formControlName="password"
+                autocomplete="current-password"
+                [attr.aria-invalid]="shouldShowError('password')"
+                [attr.aria-describedby]="shouldShowError('password') ? errorId('password') : null"
+                class="min-h-11 w-full border border-soft-border bg-transparent px-11 pe-11 text-sm text-text outline-none transition placeholder:text-text placeholder:opacity-50 focus:border-accent"
+                placeholder="Password"
+              />
+              <button
+                type="button"
+                class="absolute inset-y-0 end-0 inline-flex min-w-11 items-center justify-center text-primary transition hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                [attr.aria-label]="showPassword() ? 'Hide password' : 'Show password'"
+                (click)="togglePassword()"
+              >
+                @if (showPassword()) {
+                  <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                    <path d="M3.5 12s3-5 8.5-5 8.5 5 8.5 5-3 5-8.5 5-8.5-5-8.5-5Z" stroke="currentColor" stroke-width="1.5" />
+                    <circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.5" />
+                  </svg>
+                } @else {
+                  <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                    <path d="M3 3l18 18M9.9 5.2A9.8 9.8 0 0 1 12 5c5.5 0 8.5 5 8.5 5a13.8 13.8 0 0 1-3 3.5M6.6 6.7C4.6 8 3.5 10 3.5 10s3 5 8.5 5c1 0 1.9-.2 2.8-.5M10.6 8.7a2.5 2.5 0 0 1 3.2 3.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                  </svg>
+                }
+              </button>
+            </div>
+            @if (shouldShowError('password')) {
+              <p [id]="errorId('password')" class="mt-1 text-xs text-red-800">Password is required.</p>
+            }
+          </div>
+
+          <div class="flex items-center justify-between gap-4 text-sm leading-6 text-text">
+            <label class="inline-flex items-center gap-3">
+              <input
+                type="checkbox"
+                formControlName="rememberMe"
+                class="size-5 border border-primary bg-transparent accent-primary"
+              />
+              <span>Remember me</span>
+            </label>
+            <a routerLink="/forget" class="text-accent transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              Forgot password?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="loading()"
+            class="inline-flex min-h-12 mt-3 w-full items-center justify-center gap-8 cursor-pointer bg-damoor-primary px-6 text-xs font-semibold uppercase tracking-[0.24em] text-background transition hover:bg-damoor-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:cursor-not-allowed disabled:bg-primary/55"
+          >
+            <span>{{ loading() ? 'Signing in...' : 'Sign in' }}</span>
+          </button>
+
+          <p class="text-center text-sm text-text">
+            New to Damoor?
+            <a routerLink="/register" class="ms-2 font-medium text-accent transition hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+              Create an account
+            </a>
+          </p>
+
+          <div class="flex items-center gap-5 py-2 text-center text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-primary">
+            <span class="h-px flex-1 bg-soft-border"></span>
+            <span>Or</span>
+            <span class="h-px flex-1 bg-soft-border"></span>
+          </div>
+
+          <button
+            type="button"
+            class="inline-flex cursor-pointer min-h-12 w-full items-center justify-center gap-4 border border-soft-border bg-transparent text-sm text-text transition hover:border-accent hover:bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M21.805 12.23c0-.71-.064-1.394-.183-2.05H12v3.877h5.498a4.7 4.7 0 0 1-2.04 3.083v2.516h3.302c1.932-1.78 3.045-4.403 3.045-7.426Z" fill="#4285F4"/>
+  <path d="M12 22c2.76 0 5.076-.916 6.768-2.48l-3.302-2.516c-.916.614-2.087.977-3.466.977-2.664 0-4.92-1.8-5.727-4.22H2.86v2.596A10.23 10.23 0 0 0 12 22Z" fill="#34A853"/>
+  <path d="M6.273 13.761A6.15 6.15 0 0 1 5.95 11.8c0-.68.117-1.34.323-1.961V7.243H2.86A10.22 10.22 0 0 0 1.75 11.8c0 1.65.394 3.212 1.11 4.557l3.413-2.596Z" fill="#FBBC05"/>
+  <path d="M12 5.62c1.5 0 2.847.516 3.91 1.527l2.93-2.93C17.072 2.57 14.756 1.6 12 1.6a10.23 10.23 0 0 0-9.14 5.643l3.413 2.596C7.08 7.42 9.336 5.62 12 5.62Z" fill="#EA4335"/>
+</svg>
+            Continue with Google
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex cursor-pointer min-h-12 w-full items-center justify-center gap-4 border border-soft-border bg-transparent text-sm text-text transition hover:border-accent hover:bg-background focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          >
+            <svg aria-hidden="true" class="size-6" viewBox="0 0 24 24" fill="none">
+              <path d="M22 12.061C22 6.505 17.523 2 12 2S2 6.505 2 12.061C2 17.083 5.657 21.245 10.438 22v-7.03H7.898v-2.909h2.54V9.845c0-2.522 1.493-3.916 3.777-3.916 1.094 0 2.238.196 2.238.196v2.474h-1.26c-1.242 0-1.63.775-1.63 1.57v1.892h2.773l-.443 2.909h-2.33V22C18.343 21.245 22 17.083 22 12.061Z" fill="#1877F2"/>
+            </svg>
+            Continue with Facebook
+          </button>
         </form>
-
+      </div>
     </div>
-
-</div>
+  </div>
+</section>
