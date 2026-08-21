@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
-export const guestGuard: CanActivateFn = (route, state) => {
+export const guestGuard: CanActivateFn = () => {
+  const authService = inject(AuthService);
   const router = inject(Router);
-  
-  if (localStorage.getItem('token')) {
-    return router.parseUrl('/feed')
-  } else {
-    return true;
-  }
+
+  return authService.isAuthenticated()
+    ? router.createUrlTree(['/'])
+    : true;
 };
