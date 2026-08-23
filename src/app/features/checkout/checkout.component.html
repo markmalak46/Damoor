@@ -1,0 +1,235 @@
+<section class="bg-background text-text">
+  <div class="mx-auto w-full max-w-384 px-4 py-10 sm:px-6 lg:px-10 lg:py-14 xl:px-12">
+    <a
+      routerLink="/cart"
+      class="inline-flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.24em] text-text-muted transition hover:text-accent"
+    >
+      <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+        <path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Back to cart
+    </a>
+
+    @if (placedOrder(); as order) {
+      <div class="mt-10 grid min-h-[46vh] place-items-center border border-soft-border bg-surface-light px-6 py-14 text-center">
+        <div class="max-w-2xl">
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.42em] text-accent">
+            Order Placed
+          </p>
+          <h1 class="mt-4 font-display text-5xl leading-none text-primary sm:text-6xl">
+            Thank you, {{ order.customerName }}.
+          </h1>
+          <p class="mx-auto mt-5 max-w-xl text-sm leading-7 text-text-muted">
+            Your order #{{ order.id }} is now {{ order.status }}. We will contact you on WhatsApp to confirm the details.
+          </p>
+          <div class="mx-auto mt-8 grid max-w-md grid-cols-2 border border-border bg-background text-center">
+            <div class="border-r border-border px-5 py-4">
+              <p class="text-2xl font-light text-primary">
+                {{ order.totalAmount | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+              </p>
+              <p class="mt-1 text-[0.56rem] font-bold uppercase tracking-[0.22em] text-text-muted">Total</p>
+            </div>
+            <div class="px-5 py-4">
+              <p class="text-2xl font-light text-primary">{{ order.items.length }}</p>
+              <p class="mt-1 text-[0.56rem] font-bold uppercase tracking-[0.22em] text-text-muted">Items</p>
+            </div>
+          </div>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center">
+            <a
+              routerLink="/orders"
+              class="inline-flex min-h-11 items-center justify-center bg-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary"
+            >
+              View orders
+            </a>
+            <a
+              routerLink="/shop"
+              class="inline-flex min-h-11 items-center justify-center border border-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-primary transition hover:bg-primary hover:text-background"
+            >
+              Continue shopping
+            </a>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <header class="mt-8 border-b border-border pb-8">
+        <p class="text-[0.62rem] font-bold uppercase tracking-[0.42em] text-accent">
+          Checkout
+        </p>
+        <h1 class="mt-4 max-w-3xl font-display text-5xl leading-[0.94] text-primary sm:text-6xl">
+          Complete your order.
+        </h1>
+        <p class="mt-5 max-w-2xl text-sm leading-7 text-text-muted sm:text-base">
+          Share your delivery details and Damoor will prepare your selected pieces for confirmation.
+        </p>
+      </header>
+
+      @if (errorMessage()) {
+        <div class="mt-7 border border-red-200 bg-red-50 px-5 py-4 text-sm leading-6 text-red-800" role="alert">
+          {{ errorMessage() }}
+        </div>
+      }
+
+      @if (loadingCart()) {
+        <div class="mt-10 grid animate-pulse gap-8 lg:grid-cols-[1fr_24rem]">
+          <div class="h-120 bg-surface-light"></div>
+          <div class="h-96 bg-surface-light"></div>
+        </div>
+      } @else if (items().length === 0) {
+        <div class="mt-10 grid min-h-[40vh] place-items-center border border-dashed border-border bg-surface-light px-6 py-14 text-center">
+          <div>
+            <h2 class="font-display text-4xl text-primary">Your cart is empty.</h2>
+            <p class="mx-auto mt-3 max-w-md text-sm leading-6 text-text-muted">
+              Add pieces to your cart before checkout.
+            </p>
+            <a
+              routerLink="/shop"
+              class="mt-8 inline-flex min-h-11 items-center justify-center border border-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-primary transition hover:bg-primary hover:text-background"
+            >
+              Go to shop
+            </a>
+          </div>
+        </div>
+      } @else {
+        <form [formGroup]="checkoutForm" (ngSubmit)="submit()" class="mt-10 grid gap-10 lg:grid-cols-[1fr_24rem] lg:items-start" novalidate>
+          <section class="border border-soft-border bg-surface-light">
+            <div class="border-b border-border p-5 sm:p-6">
+              <p class="text-[0.62rem] font-bold uppercase tracking-[0.28em] text-accent">
+                Delivery Details
+              </p>
+            </div>
+
+            <div class="grid gap-5 p-5 sm:p-6">
+              <div>
+                <label for="customerName" class="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-primary">
+                  Customer Name
+                </label>
+                <input
+                  id="customerName"
+                  type="text"
+                  formControlName="customerName"
+                  autocomplete="name"
+                  class="mt-2 min-h-12 w-full border border-border bg-background px-4 text-sm text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                  [attr.aria-invalid]="shouldShowError('customerName')"
+                />
+                @if (shouldShowError('customerName')) {
+                  <p class="mt-1 text-xs text-red-800">Customer name is required.</p>
+                }
+              </div>
+
+              <div>
+                <label for="shippingAddress" class="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-primary">
+                  Shipping Address
+                </label>
+                <textarea
+                  id="shippingAddress"
+                  formControlName="shippingAddress"
+                  rows="3"
+                  class="mt-2 w-full resize-none border border-border bg-background px-4 py-3 text-sm leading-6 text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                  placeholder="City, area, street, building"
+                  [attr.aria-invalid]="shouldShowError('shippingAddress')"
+                ></textarea>
+                @if (shouldShowError('shippingAddress')) {
+                  <p class="mt-1 text-xs text-red-800">Shipping address is required.</p>
+                }
+              </div>
+
+              <div class="grid gap-5 sm:grid-cols-2">
+                <div>
+                  <label for="whatsAppNumber" class="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-primary">
+                    WhatsApp Number
+                  </label>
+                  <input
+                    id="whatsAppNumber"
+                    type="tel"
+                    formControlName="whatsAppNumber"
+                    autocomplete="tel"
+                    class="mt-2 min-h-12 w-full border border-border bg-background px-4 text-sm text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                    [attr.aria-invalid]="shouldShowError('whatsAppNumber')"
+                  />
+                  @if (shouldShowError('whatsAppNumber')) {
+                    <p class="mt-1 text-xs text-red-800">Enter a valid WhatsApp number.</p>
+                  }
+                </div>
+
+                <div>
+                  <label for="backupPhoneNumber" class="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-primary">
+                    Backup Phone
+                  </label>
+                  <input
+                    id="backupPhoneNumber"
+                    type="tel"
+                    formControlName="backupPhoneNumber"
+                    autocomplete="tel"
+                    class="mt-2 min-h-12 w-full border border-border bg-background px-4 text-sm text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                    [attr.aria-invalid]="shouldShowError('backupPhoneNumber')"
+                  />
+                  @if (shouldShowError('backupPhoneNumber')) {
+                    <p class="mt-1 text-xs text-red-800">Enter a valid backup phone number.</p>
+                  }
+                </div>
+              </div>
+
+              <div>
+                <label for="notes" class="text-[0.62rem] font-bold uppercase tracking-[0.2em] text-primary">
+                  Notes
+                </label>
+                <textarea
+                  id="notes"
+                  formControlName="notes"
+                  rows="3"
+                  class="mt-2 w-full resize-none border border-border bg-background px-4 py-3 text-sm leading-6 text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                  placeholder="Optional delivery notes"
+                ></textarea>
+              </div>
+            </div>
+          </section>
+
+          <aside class="border border-border bg-background p-6 lg:sticky lg:top-24">
+            <p class="text-[0.62rem] font-bold uppercase tracking-[0.24em] text-accent">
+              Order Summary
+            </p>
+            <div class="mt-6 divide-y divide-border border-y border-border">
+              @for (item of items(); track item.id) {
+                <div class="py-4">
+                  <p class="text-sm font-medium text-primary">{{ item.productName }}</p>
+                  <p class="mt-1 text-xs uppercase tracking-[0.14em] text-text-muted">
+                    {{ item.color }} / {{ item.size }} x {{ item.quantity }}
+                  </p>
+                  <p class="mt-2 text-sm text-primary">
+                    {{ item.lineTotal | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                  </p>
+                </div>
+              }
+            </div>
+
+            <div class="mt-6 space-y-4 border-b border-border pb-6 text-sm">
+              <div class="flex items-center justify-between gap-4 text-text-muted">
+                <span>Items</span>
+                <span class="text-primary">{{ itemCount() }}</span>
+              </div>
+              <div class="flex items-center justify-between gap-4 text-text-muted">
+                <span>Subtotal</span>
+                <span class="text-primary">{{ total() | currency: 'EGP ' : 'symbol' : '1.0-0' }}</span>
+              </div>
+            </div>
+
+            <div class="mt-6 flex items-center justify-between gap-4">
+              <span class="text-base font-medium text-primary">Total</span>
+              <span class="text-2xl font-light text-primary">
+                {{ total() | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+              </span>
+            </div>
+
+            <button
+              type="submit"
+              class="mt-7 min-h-12 w-full bg-primary px-6 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary disabled:cursor-not-allowed disabled:bg-text-muted"
+              [disabled]="placingOrder()"
+            >
+              {{ placingOrder() ? 'Placing order...' : 'Place Order' }}
+            </button>
+          </aside>
+        </form>
+      }
+    }
+  </div>
+</section>

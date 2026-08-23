@@ -15,6 +15,7 @@ import { ProductVariantDetailsComponent } from './features/product-variant-detai
 import { AdminDashboardComponent } from './features/admin-dashboard/admin-dashboard.component';
 import { AccountComponent } from './features/account/account.component';
 import { OrdersComponent } from './features/orders/orders.component';
+import { CheckoutComponent } from './features/checkout/checkout.component';
 
 import { adminGuard } from './core/auth/guards/admin-guard';
 import { authGuard } from './core/auth/guards/auth-guard';
@@ -80,6 +81,20 @@ export const routes: Routes = [
       {
         path: '',
         component: OrdersComponent,
+      },
+    ],
+  },
+
+  // Authenticated Checkout
+  {
+    path: 'checkout',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    title: 'Checkout | Damoor',
+    children: [
+      {
+        path: '',
+        component: CheckoutComponent,
       },
     ],
   },
