@@ -14,6 +14,8 @@ import { CartComponent } from './features/cart/cart.component';
 import { ProductVariantDetailsComponent } from './features/product-variant-details/product-variant-details.component';
 import { AdminDashboardComponent } from './features/admin-dashboard/admin-dashboard.component';
 import { AdminOrdersComponent } from './features/admin-orders/admin-orders.component';
+import { AdminCategoriesComponent } from './features/admin-categories/admin-categories.component';
+import { AdminProductsComponent } from './features/admin-products/admin-products.component';
 import { AccountComponent } from './features/account/account.component';
 import { OrdersComponent } from './features/orders/orders.component';
 import { CheckoutComponent } from './features/checkout/checkout.component';
@@ -171,6 +173,16 @@ export const routes: Routes = [
             path: 'orders',
             component: AdminOrdersComponent,
             title: 'Admin Orders | Damoor',
+          },
+          {
+            path: 'categories',
+            component: AdminCategoriesComponent,
+            title: 'Admin Categories | Damoor',
+          },
+          {
+            path: 'products',
+            component: AdminProductsComponent,
+            title: 'Admin Products | Damoor',
           },
         ],
       },

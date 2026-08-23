@@ -20,5 +20,15 @@ export class AdminDashboardComponent {
       route: '/admin/orders',
       description: 'Review and filter customer orders.',
     },
+    {
+      label: 'Categories',
+      route: '/admin/categories',
+      description: 'View every product category.',
+    },
+    {
+      label: 'Products',
+      route: '/admin/products',
+      description: 'Inspect product color variants.',
+    },
   ];
 }

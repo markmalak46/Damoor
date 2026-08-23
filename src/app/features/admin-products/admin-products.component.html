@@ -1,0 +1,165 @@
+<section class="space-y-6">
+  <header class="grid gap-5 border-b border-border pb-6 lg:grid-cols-[1fr_auto] lg:items-end">
+    <div>
+      <p class="text-[0.62rem] font-bold uppercase tracking-[0.42em] text-accent">Admin Products</p>
+      <h1 class="mt-3 font-display text-4xl leading-none text-primary sm:text-5xl">
+        Product variants.
+      </h1>
+      <p class="mt-4 max-w-2xl text-sm leading-7 text-text-muted">
+        View every product color edit with one representative size per color, while keeping all available sizes visible inside each record.
+      </p>
+    </div>
+
+    @if (!loading() && !errorMessage()) {
+      <div class="grid grid-cols-3 border border-soft-border bg-background text-center shadow-sm shadow-primary/5">
+        <div class="px-4 py-3">
+          <p class="text-xl font-light text-primary">{{ totalColorEdits() }}</p>
+          <p class="mt-1 text-[0.54rem] font-bold uppercase tracking-[0.2em] text-text-muted">Color edits</p>
+        </div>
+        <div class="border-x border-border px-4 py-3">
+          <p class="text-xl font-light text-primary">{{ inStockCount() }}</p>
+          <p class="mt-1 text-[0.54rem] font-bold uppercase tracking-[0.2em] text-text-muted">In stock</p>
+        </div>
+        <div class="px-4 py-3">
+          <p class="text-xl font-light text-primary">{{ totalSizes() }}</p>
+          <p class="mt-1 text-[0.54rem] font-bold uppercase tracking-[0.2em] text-text-muted">Sizes</p>
+        </div>
+      </div>
+    }
+  </header>
+
+  @if (loading()) {
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      @for (_ of [1, 2, 3, 4, 5, 6]; track $index) {
+        <article class="animate-pulse border border-soft-border bg-background p-4 shadow-sm shadow-primary/5">
+          <div class="aspect-[4/5] bg-surface-light"></div>
+          <div class="mt-4 h-3 w-24 bg-surface-light"></div>
+          <div class="mt-3 h-6 w-48 max-w-full bg-surface-light"></div>
+          <div class="mt-4 h-10 bg-surface-light"></div>
+        </article>
+      }
+    </div>
+  } @else if (errorMessage()) {
+    <div class="grid min-h-80 place-items-center border border-dashed border-border bg-background px-6 py-14 text-center">
+      <div>
+        <h2 class="font-display text-4xl text-primary">Products unavailable.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-text-muted">{{ errorMessage() }}</p>
+        <button
+          type="button"
+          class="mt-8 min-h-11 bg-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary"
+          (click)="loadProducts()"
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  } @else if (products().length === 0) {
+    <div class="grid min-h-80 place-items-center border border-dashed border-border bg-background px-6 py-14 text-center">
+      <div>
+        <h2 class="font-display text-4xl text-primary">No variants yet.</h2>
+        <p class="mx-auto mt-4 max-w-xl text-sm leading-6 text-text-muted">
+          Product variants from the backend will appear here once available.
+        </p>
+      </div>
+    </div>
+  } @else {
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      @for (product of products(); track product.defaultVariant.id) {
+        @let variant = product.defaultVariant;
+        <article class="group border border-soft-border bg-background shadow-sm shadow-primary/5 transition hover:border-accent/60 hover:shadow-lg hover:shadow-primary/8">
+          <a
+            class="block bg-surface-light p-5"
+            [routerLink]="['/product-variants', variant.id]"
+            [attr.aria-label]="'View ' + product.productName + ' variant'"
+          >
+            <div class="aspect-[4/5]">
+              @if (resolveMainImage(variant) && !hasImageFailed(variant.id)) {
+                <img
+                  [src]="resolveMainImage(variant)"
+                  [alt]="product.productName + ' in ' + variant.color"
+                  class="h-full w-full object-contain transition duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
+                  (error)="handleImageError(variant.id)"
+                />
+              } @else {
+                <div class="flex h-full w-full items-center justify-center text-center">
+                  <div>
+                    <p class="font-display text-4xl text-primary/20">Damoor</p>
+                    <p class="mt-2 text-[0.6rem] uppercase tracking-[0.24em] text-text-muted">Image pending</p>
+                  </div>
+                </div>
+              }
+            </div>
+          </a>
+
+          <div class="p-5">
+            <div class="flex items-start justify-between gap-4 border-b border-border pb-4">
+              <div class="min-w-0">
+                <p class="text-[0.58rem] font-black uppercase tracking-[0.24em] text-accent">
+                  {{ product.categoryName }}
+                </p>
+                <h2 class="mt-2 text-base font-semibold leading-6 text-primary">
+                  {{ product.productName }}
+                </h2>
+                <p class="mt-2 text-xs uppercase tracking-[0.16em] text-text-muted">
+                  SKU {{ variant.sku }}
+                </p>
+              </div>
+
+              <span
+                class="inline-flex min-h-8 shrink-0 items-center justify-center border px-3 text-[0.56rem] font-bold uppercase tracking-[0.16em]"
+                [class]="stockClasses(product)"
+              >
+                {{ product.isInStock ? 'Live' : 'Sold out' }}
+              </span>
+            </div>
+
+            <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+              <div>
+                <dt class="text-text-muted">Color</dt>
+                <dd class="mt-1 font-medium text-primary">{{ variant.color }}</dd>
+              </div>
+              <div>
+                <dt class="text-text-muted">Displayed size</dt>
+                <dd class="mt-1 font-medium text-primary">{{ variant.size }}</dd>
+              </div>
+              <div>
+                <dt class="text-text-muted">Stock</dt>
+                <dd class="mt-1 font-medium text-primary">{{ variant.stockQuantity }}</dd>
+              </div>
+              <div>
+                <dt class="text-text-muted">Price</dt>
+                <dd class="mt-1 font-medium text-primary">
+                  {{ effectivePrice(variant) | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                  @if (hasSalePrice(variant)) {
+                    <span class="ml-2 text-xs text-text-muted line-through">
+                      {{ variant.price | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                    </span>
+                  }
+                </dd>
+              </div>
+            </dl>
+
+            <div class="mt-5 border-t border-border pt-4">
+              <p class="text-[0.58rem] font-black uppercase tracking-[0.22em] text-text-muted">
+                Available sizes
+              </p>
+              <div class="mt-3 flex flex-wrap gap-2">
+                @for (size of product.availableSizes; track size) {
+                  <span
+                    class="inline-flex min-h-8 min-w-10 items-center justify-center border border-border px-3 text-xs font-medium text-primary"
+                    [class.border-primary]="size === variant.size"
+                    [class.bg-primary]="size === variant.size"
+                    [class.text-background]="size === variant.size"
+                  >
+                    {{ size }}
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</section>
