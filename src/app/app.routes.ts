@@ -13,6 +13,7 @@ import { WishlistComponent } from './features/wishlist/wishlist.component';
 import { CartComponent } from './features/cart/cart.component';
 import { ProductVariantDetailsComponent } from './features/product-variant-details/product-variant-details.component';
 import { AdminDashboardComponent } from './features/admin-dashboard/admin-dashboard.component';
+import { AccountComponent } from './features/account/account.component';
 
 import { adminGuard } from './core/auth/guards/admin-guard';
 import { authGuard } from './core/auth/guards/auth-guard';
@@ -50,6 +51,20 @@ export const routes: Routes = [
       {
         path: '',
         component: WishlistComponent,
+      },
+    ],
+  },
+
+  // Authenticated Account
+  {
+    path: 'account',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    title: 'Account | Damoor',
+    children: [
+      {
+        path: '',
+        component: AccountComponent,
       },
     ],
   },

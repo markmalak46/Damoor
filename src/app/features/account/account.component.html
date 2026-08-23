@@ -1,0 +1,188 @@
+<section class="bg-background text-text">
+  <div class="mx-auto w-full max-w-384 px-4 py-10 sm:px-6 lg:px-10 lg:py-14 xl:px-12">
+    <a
+      routerLink="/"
+      class="inline-flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.24em] text-text-muted transition hover:text-accent"
+    >
+      <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+        <path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Back home
+    </a>
+
+    @if (loading()) {
+      <div class="mt-8 grid animate-pulse gap-6 lg:grid-cols-[0.82fr_1.18fr]">
+        <div class="min-h-80 bg-surface-light"></div>
+        <div class="space-y-4">
+          <div class="h-12 bg-surface-light"></div>
+          <div class="h-24 bg-surface-light"></div>
+          <div class="h-24 bg-surface-light"></div>
+          <div class="h-24 bg-surface-light"></div>
+        </div>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="mt-10 flex min-h-[38vh] flex-col items-center justify-center border border-dashed border-border bg-surface-light px-6 py-14 text-center">
+        <h1 class="font-display text-4xl text-primary">Account unavailable.</h1>
+        <p class="mt-4 max-w-xl text-sm leading-6 text-text-muted">{{ errorMessage() }}</p>
+        <button
+          type="button"
+          class="mt-8 min-h-11 bg-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary"
+          (click)="loadProfile()"
+        >
+          Retry
+        </button>
+      </div>
+    } @else if (profile(); as account) {
+      @if (successMessage()) {
+        <div class="fixed right-4 top-24 z-60 w-[min(24rem,calc(100vw-2rem))] border border-accent bg-background px-5 py-4 text-sm text-primary shadow-2xl shadow-primary/15 sm:right-6" role="status" aria-live="polite">
+          {{ successMessage() }}
+        </div>
+      }
+
+      <div class="mt-8 grid gap-6 lg:grid-cols-[0.82fr_1.18fr] xl:gap-8">
+        <aside class="bg-primary p-6 text-background sm:p-8 lg:min-h-[34rem]">
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.38em] text-accent">
+            Account
+          </p>
+          <div class="mt-10 inline-flex size-24 items-center justify-center rounded-full border border-accent/45 bg-background text-3xl font-medium uppercase text-primary">
+            {{ initials(account.fullName) }}
+          </div>
+          <h1 class="mt-7 font-display text-5xl leading-none sm:text-6xl">
+            {{ account.fullName }}
+          </h1>
+          <p class="mt-5 max-w-sm text-sm leading-7 text-background/70">
+            Your Damoor profile, contact details, and account access level are gathered here in one calm place.
+          </p>
+
+          <div class="mt-10 flex flex-wrap gap-2">
+            @for (role of account.roles; track role) {
+              <span class="border border-accent/45 px-3 py-2 text-[0.58rem] font-bold uppercase tracking-[0.22em] text-accent">
+                {{ role }}
+              </span>
+            }
+          </div>
+        </aside>
+
+        <div class="space-y-6">
+          <header class="border-b border-border pb-6">
+            <p class="text-[0.62rem] font-bold uppercase tracking-[0.38em] text-accent">
+              Profile Details
+            </p>
+            <h2 class="mt-3 font-display text-4xl leading-none text-primary sm:text-5xl">
+              Personal information
+            </h2>
+          </header>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <article class="border border-soft-border bg-surface-light p-5">
+              <p class="text-[0.58rem] font-black uppercase tracking-[0.24em] text-text-muted">
+                Customer ID
+              </p>
+              <p class="mt-4 text-2xl font-light text-primary">#{{ account.id }}</p>
+            </article>
+
+            <article class="border border-soft-border bg-surface-light p-5">
+              <p class="text-[0.58rem] font-black uppercase tracking-[0.24em] text-text-muted">
+                Account Type
+              </p>
+              <p class="mt-4 text-2xl font-light text-primary">{{ account.roles.join(', ') }}</p>
+            </article>
+          </div>
+
+          <form [formGroup]="accountForm" (ngSubmit)="submit()" class="border border-soft-border bg-surface-light" novalidate>
+            @if (errorMessage()) {
+              <div class="border-b border-red-200 bg-red-50 px-5 py-4 text-sm leading-5 text-red-800" role="alert">
+                {{ errorMessage() }}
+              </div>
+            }
+
+            <div class="grid gap-0 divide-y divide-border">
+              <div class="grid gap-3 p-5 sm:grid-cols-[12rem_1fr] sm:items-start">
+                <label for="account-full-name" class="text-[0.62rem] font-bold uppercase tracking-[0.24em] text-accent">
+                  Full Name
+                </label>
+                <div>
+                  <input
+                    id="account-full-name"
+                    type="text"
+                    formControlName="fullName"
+                    autocomplete="name"
+                    class="min-h-12 w-full border border-border bg-background px-4 text-base font-medium text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                    [attr.aria-invalid]="shouldShowError('fullName')"
+                  />
+                  @if (shouldShowError('fullName')) {
+                    <p class="mt-1 text-xs text-red-800">
+                      @if (accountForm.controls.fullName.hasError('required')) {
+                        Full name is required.
+                      } @else {
+                        Full name must be at least 3 characters.
+                      }
+                    </p>
+                  }
+                </div>
+              </div>
+
+              <div class="grid gap-2 p-5 sm:grid-cols-[12rem_1fr] sm:items-center">
+                <p class="text-[0.62rem] font-bold uppercase tracking-[0.24em] text-accent">Email</p>
+                <p class="break-all text-base font-medium text-primary">{{ account.email }}</p>
+              </div>
+
+              <div class="grid gap-3 p-5 sm:grid-cols-[12rem_1fr] sm:items-start">
+                <label for="account-phone" class="text-[0.62rem] font-bold uppercase tracking-[0.24em] text-accent">
+                  Phone
+                </label>
+                <div>
+                  <input
+                    id="account-phone"
+                    type="tel"
+                    formControlName="phoneNumber"
+                    autocomplete="tel"
+                    class="min-h-12 w-full border border-border bg-background px-4 text-base font-medium text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                    [attr.aria-invalid]="shouldShowError('phoneNumber')"
+                  />
+                  @if (shouldShowError('phoneNumber')) {
+                    <p class="mt-1 text-xs text-red-800">
+                      @if (accountForm.controls.phoneNumber.hasError('required')) {
+                        Phone number is required.
+                      } @else {
+                        Enter a valid phone number.
+                      }
+                    </p>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-3 border-t border-border p-5 sm:flex-row sm:items-center sm:justify-between">
+              <p class="text-sm leading-6 text-text-muted">
+                You can update your display name and phone number.
+              </p>
+              <button
+                type="submit"
+                class="inline-flex min-h-11 items-center justify-center bg-primary px-7 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary disabled:cursor-not-allowed disabled:bg-text-muted"
+                [disabled]="saving()"
+              >
+                {{ saving() ? 'Saving...' : 'Save Changes' }}
+              </button>
+            </div>
+          </form>
+
+          <section class="grid gap-4 border border-border bg-background p-5 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div>
+              <h3 class="text-sm font-semibold text-primary">Account support</h3>
+              <p class="mt-2 text-sm leading-6 text-text-muted">
+                Your email address is used for sign-in and cannot be changed here yet.
+              </p>
+            </div>
+            <a
+              routerLink="/shop"
+              class="inline-flex min-h-11 items-center justify-center border border-primary px-6 text-xs font-bold uppercase tracking-[0.2em] text-primary transition hover:bg-primary hover:text-background"
+            >
+              Shop Damoor
+            </a>
+          </section>
+        </div>
+      </div>
+    }
+  </div>
+</section>

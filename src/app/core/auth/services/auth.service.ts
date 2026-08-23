@@ -88,6 +88,34 @@ export class AuthService {
     this.currentUserSignal.set(authData.user);
   }
 
+  updateCurrentUser(user: AuthUser): void {
+    this.currentUserSignal.set(user);
+
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
+    localStorage.setItem('user', JSON.stringify(user));
+
+    const storedSession = localStorage.getItem(AuthService.storageKey);
+    if (!storedSession) {
+      return;
+    }
+
+    try {
+      const session = JSON.parse(storedSession) as StoredAuthSession;
+      localStorage.setItem(
+        AuthService.storageKey,
+        JSON.stringify({
+          ...session,
+          user,
+        }),
+      );
+    } catch {
+      localStorage.removeItem(AuthService.storageKey);
+    }
+  }
+
   private normalizeBaseUrl(baseUrl: string): string {
     return baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   }
