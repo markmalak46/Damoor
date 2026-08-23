@@ -1,4 +1,15 @@
 export type AdminOrderStatusFilter = '' | 'Pending' | 'Delivered' | 'Cancelled';
+export type AdminOrderStatus =
+  | 'Pending'
+  | 'Confirmed'
+  | 'Processing'
+  | 'Shipped'
+  | 'Delivered'
+  | 'Cancelled';
+
+export interface UpdateAdminOrderStatusRequest {
+  status: AdminOrderStatus;
+}
 
 export interface AdminOrdersQuery {
   page: number;
@@ -59,7 +70,7 @@ export interface AdminOrdersResponse {
 export interface AdminOrderDetailsResponse {
   success: boolean;
   message: string;
-  data: AdminOrderDetails;
+  data: AdminOrderDetails | null;
   pagination: null;
   errors: unknown;
 }

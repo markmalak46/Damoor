@@ -6,6 +6,7 @@ import { AuthService } from '../../core/auth/services/auth.service';
 import {
   AdminOrderDetails,
   AdminOrderDetailsResponse,
+  UpdateAdminOrderStatusRequest,
   AdminOrdersQuery,
   AdminOrdersResponse,
 } from './admin-orders.models';
@@ -62,9 +63,24 @@ export class AdminOrdersService {
             throw new Error(response.message || 'We could not load this admin order.');
           }
 
+          if (!response.data) {
+            throw new Error(response.message || 'We could not load this admin order.');
+          }
+
           return response.data;
         }),
       );
+  }
+
+  updateOrderStatus(
+    orderId: number,
+    request: UpdateAdminOrderStatusRequest,
+  ): Observable<AdminOrderDetailsResponse> {
+    return this.httpClient.put<AdminOrderDetailsResponse>(
+      `${this.apiBaseUrl}Admin/Orders/${orderId}/status`,
+      request,
+      { headers: this.createAuthHeaders() },
+    );
   }
 
   private createAuthHeaders(): HttpHeaders {

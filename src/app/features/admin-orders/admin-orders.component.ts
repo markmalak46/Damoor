@@ -6,6 +6,7 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../../core/auth/services/auth.service';
 import {
   AdminOrderDetails,
+  AdminOrderStatus,
   AdminOrderStatusFilter,
   AdminOrderSummary,
   AdminOrdersPagination,
@@ -26,10 +27,13 @@ export class AdminOrdersComponent {
   protected readonly orderDetails = signal<Record<number, AdminOrderDetails>>({});
   protected readonly expandedOrderId = signal<number | null>(null);
   protected readonly loadingOrderId = signal<number | null>(null);
+  protected readonly updatingStatusOrderId = signal<number | null>(null);
+  protected readonly selectedStatuses = signal<Record<number, AdminOrderStatus>>({});
   protected readonly pagination = signal<AdminOrdersPagination | null>(null);
   protected readonly loading = signal(true);
   protected readonly errorMessage = signal('');
   protected readonly detailsErrorMessage = signal('');
+  protected readonly noticeMessage = signal('');
   protected readonly page = signal(1);
   protected readonly pageSize = signal(10);
   protected readonly status = signal<AdminOrderStatusFilter>('');
@@ -58,6 +62,15 @@ export class AdminOrdersComponent {
     return `${pagination.totalCount} order${pagination.totalCount === 1 ? '' : 's'}`;
   });
 
+  protected readonly orderStatusOptions: AdminOrderStatus[] = [
+    'Pending',
+    'Confirmed',
+    'Processing',
+    'Shipped',
+    'Delivered',
+    'Cancelled',
+  ];
+
   constructor() {
     this.loadOrders();
   }
@@ -66,6 +79,7 @@ export class AdminOrdersComponent {
     this.loading.set(true);
     this.errorMessage.set('');
     this.detailsErrorMessage.set('');
+    this.noticeMessage.set('');
 
     this.adminOrdersService
       .getOrders(this.currentQuery())
@@ -107,6 +121,10 @@ export class AdminOrdersComponent {
             ...currentDetails,
             [orderDetails.id]: orderDetails,
           }));
+          this.selectedStatuses.update((currentStatuses) => ({
+            ...currentStatuses,
+            [orderDetails.id]: this.toAdminOrderStatus(orderDetails.status),
+          }));
         },
         error: (error: unknown) =>
           this.handleUnauthorizedError(error) ||
@@ -116,6 +134,72 @@ export class AdminOrdersComponent {
 
   protected getOrderDetails(orderId: number): AdminOrderDetails | undefined {
     return this.orderDetails()[orderId];
+  }
+
+  protected setSelectedStatus(orderId: number, status: string): void {
+    this.selectedStatuses.update((currentStatuses) => ({
+      ...currentStatuses,
+      [orderId]: this.toAdminOrderStatus(status),
+    }));
+  }
+
+  protected selectedStatus(orderId: number, fallbackStatus: string): AdminOrderStatus {
+    return this.selectedStatuses()[orderId] ?? this.toAdminOrderStatus(fallbackStatus);
+  }
+
+  protected updateOrderStatus(orderId: number): void {
+    const nextStatus = this.selectedStatuses()[orderId];
+
+    if (!nextStatus || this.updatingStatusOrderId() !== null) {
+      return;
+    }
+
+    this.updatingStatusOrderId.set(orderId);
+    this.detailsErrorMessage.set('');
+    this.noticeMessage.set('');
+
+    this.adminOrdersService
+      .updateOrderStatus(orderId, { status: nextStatus })
+      .pipe(finalize(() => this.updatingStatusOrderId.set(null)))
+      .subscribe({
+        next: (response) => {
+          if (!response.success || !response.data) {
+            this.detailsErrorMessage.set(response.message || 'We could not update this order status.');
+            return;
+          }
+
+          const updatedOrder = response.data;
+
+          this.orderDetails.update((currentDetails) => ({
+            ...currentDetails,
+            [updatedOrder.id]: updatedOrder,
+          }));
+          this.orders.update((currentOrders) =>
+            currentOrders.map((order) =>
+              order.id === updatedOrder.id
+                ? {
+                    ...order,
+                    status: updatedOrder.status,
+                    totalAmount: updatedOrder.totalAmount,
+                    customerName: updatedOrder.customerName,
+                    whatsAppNumber: updatedOrder.whatsAppNumber,
+                    accountEmail: updatedOrder.accountEmail,
+                    sessionToken: updatedOrder.sessionToken,
+                    userId: updatedOrder.userId,
+                  }
+                : order,
+            ),
+          );
+          this.selectedStatuses.update((currentStatuses) => ({
+            ...currentStatuses,
+            [updatedOrder.id]: this.toAdminOrderStatus(updatedOrder.status),
+          }));
+          this.noticeMessage.set(response.message || 'Order status updated successfully.');
+        },
+        error: (error: unknown) =>
+          this.handleUnauthorizedError(error) ||
+          this.detailsErrorMessage.set(this.formatError(error)),
+      });
   }
 
   protected applyFilters(): void {
@@ -195,6 +279,14 @@ export class AdminOrdersComponent {
     }
 
     return 'border-primary/30 bg-primary/5 text-primary';
+  }
+
+  private toAdminOrderStatus(status: string): AdminOrderStatus {
+    const matchedStatus = this.orderStatusOptions.find(
+      (option) => option.toLowerCase() === status.trim().toLowerCase(),
+    );
+
+    return matchedStatus ?? 'Pending';
   }
 
   private currentQuery(): AdminOrdersQuery {
