@@ -14,6 +14,7 @@ import { CartComponent } from './features/cart/cart.component';
 import { ProductVariantDetailsComponent } from './features/product-variant-details/product-variant-details.component';
 import { AdminDashboardComponent } from './features/admin-dashboard/admin-dashboard.component';
 import { AccountComponent } from './features/account/account.component';
+import { OrdersComponent } from './features/orders/orders.component';
 
 import { adminGuard } from './core/auth/guards/admin-guard';
 import { authGuard } from './core/auth/guards/auth-guard';
@@ -65,6 +66,20 @@ export const routes: Routes = [
       {
         path: '',
         component: AccountComponent,
+      },
+    ],
+  },
+
+  // Authenticated Orders
+  {
+    path: 'orders',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    title: 'Orders | Damoor',
+    children: [
+      {
+        path: '',
+        component: OrdersComponent,
       },
     ],
   },

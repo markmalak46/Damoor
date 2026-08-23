@@ -1,0 +1,270 @@
+<section class="bg-background text-text">
+  <div class="mx-auto w-full max-w-384 px-4 py-10 sm:px-6 lg:px-10 lg:py-14 xl:px-12">
+    <a
+      routerLink="/account"
+      class="inline-flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.24em] text-text-muted transition hover:text-accent"
+    >
+      <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+        <path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Back to account
+    </a>
+
+    <header class="mt-8 border-b border-border pb-8">
+      <div class="grid gap-7 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.42em] text-accent">
+            Orders
+          </p>
+          <h1 class="mt-4 max-w-3xl font-display text-5xl leading-[0.94] text-primary sm:text-6xl">
+            Your Damoor orders.
+          </h1>
+          <p class="mt-5 max-w-2xl text-sm leading-7 text-text-muted sm:text-base">
+            Track every order you have placed with Damoor, from pending preparation to completed delivery.
+          </p>
+        </div>
+
+        @if (!loading() && orders().length > 0) {
+          <div class="grid grid-cols-3 border border-soft-border bg-surface-light text-center shadow-sm shadow-primary/5">
+            <div class="px-5 py-4">
+              <p class="text-2xl font-light text-primary">{{ orders().length }}</p>
+              <p class="mt-1 text-[0.56rem] font-bold uppercase tracking-[0.22em] text-text-muted">Orders</p>
+            </div>
+            <div class="border-x border-border px-5 py-4">
+              <p class="text-2xl font-light text-primary">{{ totalItems() }}</p>
+              <p class="mt-1 text-[0.56rem] font-bold uppercase tracking-[0.22em] text-text-muted">Items</p>
+            </div>
+            <div class="px-5 py-4">
+              <p class="text-2xl font-light text-primary">
+                {{ totalSpent() | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+              </p>
+              <p class="mt-1 text-[0.56rem] font-bold uppercase tracking-[0.22em] text-text-muted">Total</p>
+            </div>
+          </div>
+        }
+      </div>
+    </header>
+
+    @if (noticeMessage()) {
+      <div class="fixed right-4 top-24 z-60 w-[min(24rem,calc(100vw-2rem))] border border-accent bg-background px-5 py-4 text-sm text-primary shadow-2xl shadow-primary/15 sm:right-6" role="status" aria-live="polite">
+        {{ noticeMessage() }}
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="mt-8 divide-y divide-border">
+        @for (_ of [1, 2, 3]; track $index) {
+          <div class="grid animate-pulse gap-5 py-6 md:grid-cols-[1fr_10rem_9rem] md:items-center">
+            <div>
+              <div class="h-3 w-24 bg-surface-light"></div>
+              <div class="mt-4 h-7 w-64 max-w-full bg-surface-light"></div>
+              <div class="mt-3 h-3 w-44 bg-surface-light"></div>
+            </div>
+            <div class="h-10 bg-surface-light"></div>
+            <div class="h-10 bg-surface-light"></div>
+          </div>
+        }
+      </div>
+    } @else if (errorMessage()) {
+      <div class="mt-10 flex min-h-[36vh] flex-col items-center justify-center border border-dashed border-border bg-surface-light px-6 py-14 text-center">
+        <h2 class="font-display text-4xl text-primary">Orders unavailable.</h2>
+        <p class="mt-4 max-w-xl text-sm leading-6 text-text-muted">{{ errorMessage() }}</p>
+        <button
+          type="button"
+          class="mt-8 min-h-11 bg-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary"
+          (click)="loadOrders()"
+        >
+          Retry
+        </button>
+      </div>
+    } @else if (orders().length === 0) {
+      <div class="mt-10 grid min-h-[40vh] place-items-center border border-dashed border-border bg-surface-light px-6 py-14 text-center">
+        <div>
+          <svg aria-hidden="true" class="mx-auto size-12 text-accent" viewBox="0 0 24 24" fill="none">
+            <path d="M7 8.5h10l1.25 11H5.75L7 8.5ZM9 8.5a3 3 0 0 1 6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <h2 class="mt-6 font-display text-4xl text-primary">No orders yet.</h2>
+          <p class="mx-auto mt-3 max-w-md text-sm leading-6 text-text-muted">
+            Your future Damoor orders will appear here after checkout.
+          </p>
+          <a
+            routerLink="/shop"
+            class="mt-8 inline-flex min-h-11 items-center justify-center border border-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-primary transition hover:bg-primary hover:text-background"
+          >
+            Start shopping
+          </a>
+        </div>
+      </div>
+    } @else {
+      <div class="mt-8 divide-y divide-border border-y border-border">
+        @for (order of orders(); track order.id) {
+          <article>
+            <button
+              type="button"
+              class="grid w-full cursor-pointer gap-5 py-6 text-left transition hover:bg-surface-light/45 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent md:grid-cols-[1fr_auto_auto_auto] md:items-center md:gap-8"
+              [attr.aria-expanded]="expandedOrderId() === order.id"
+              [attr.aria-controls]="'order-details-' + order.id"
+              (click)="toggleOrderDetails(order.id)"
+            >
+              <div>
+                <p class="text-[0.58rem] font-bold uppercase tracking-[0.26em] text-accent">
+                  Order #{{ order.id }}
+                </p>
+                <h2 class="mt-2 text-2xl font-light leading-tight text-primary">
+                  {{ order.customerName }}
+                </h2>
+                <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-text-muted">
+                  <span>{{ order.createdAt | date: 'MMM d, y, h:mm a' }}</span>
+                  <span class="hidden h-4 w-px bg-border sm:inline-block"></span>
+                  <span>{{ order.itemCount }} item{{ order.itemCount === 1 ? '' : 's' }}</span>
+                </div>
+              </div>
+
+              <span
+                class="inline-flex min-h-10 items-center justify-center border px-4 text-[0.62rem] font-bold uppercase tracking-[0.2em]"
+                [class]="statusClasses(order.status)"
+              >
+                {{ order.status }}
+              </span>
+
+              <div class="md:text-right">
+                <p class="text-2xl font-light tracking-tight text-primary">
+                  {{ order.totalAmount | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                </p>
+                <p class="mt-1 text-[0.58rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                  Total amount
+                </p>
+              </div>
+
+              <span class="inline-flex size-10 items-center justify-center border border-border text-primary transition">
+                <svg
+                  aria-hidden="true"
+                  class="size-4 transition"
+                  [class.rotate-180]="expandedOrderId() === order.id"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </button>
+
+            @if (expandedOrderId() === order.id) {
+              <div id="order-details-{{ order.id }}" class="pb-7">
+                @if (loadingOrderId() === order.id) {
+                  <div class="grid animate-pulse gap-4 border border-soft-border bg-surface-light p-5 md:grid-cols-3">
+                    <div class="h-16 bg-background"></div>
+                    <div class="h-16 bg-background"></div>
+                    <div class="h-16 bg-background"></div>
+                  </div>
+                } @else if (detailsErrorMessage()) {
+                  <div class="border border-red-200 bg-red-50 p-5 text-sm leading-6 text-red-800" role="alert">
+                    {{ detailsErrorMessage() }}
+                  </div>
+                } @else if (getOrderDetails(order.id); as details) {
+                  <div class="border border-soft-border bg-surface-light">
+                    <div class="flex flex-col gap-4 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                      <div>
+                        <p class="text-[0.58rem] font-bold uppercase tracking-[0.28em] text-accent">
+                          Order Status
+                        </p>
+                        <p class="mt-2 text-lg font-medium text-primary">{{ details.status }}</p>
+                      </div>
+
+                      @if (canCancelOrder(details.status)) {
+                        <button
+                          type="button"
+                          class="inline-flex min-h-11 items-center justify-center border border-red-800 px-6 text-xs font-bold uppercase tracking-[0.22em] text-red-800 transition hover:bg-red-800 hover:text-background disabled:cursor-not-allowed disabled:opacity-60"
+                          [disabled]="cancellingOrderId() === details.id"
+                          (click)="cancelOrder(details.id)"
+                        >
+                          {{ cancellingOrderId() === details.id ? 'Cancelling...' : 'Cancel Order' }}
+                        </button>
+                      } @else {
+                        <span class="inline-flex min-h-10 items-center justify-center border px-4 text-[0.62rem] font-bold uppercase tracking-[0.2em]" [class]="statusClasses(details.status)">
+                          {{ details.status }}
+                        </span>
+                      }
+                    </div>
+
+                    <div class="grid gap-0 divide-y divide-border lg:grid-cols-[0.88fr_1.12fr] lg:divide-x lg:divide-y-0">
+                      <div class="p-5 sm:p-6">
+                        <p class="text-[0.58rem] font-bold uppercase tracking-[0.28em] text-accent">
+                          Delivery
+                        </p>
+                        <dl class="mt-5 space-y-4 text-sm">
+                          <div>
+                            <dt class="text-text-muted">Shipping address</dt>
+                            <dd class="mt-1 font-medium text-primary">{{ details.shippingAddress }}</dd>
+                          </div>
+                          <div class="grid gap-4 sm:grid-cols-2">
+                            <div>
+                              <dt class="text-text-muted">WhatsApp</dt>
+                              <dd class="mt-1 font-medium text-primary">{{ details.whatsAppNumber }}</dd>
+                            </div>
+                            <div>
+                              <dt class="text-text-muted">Backup phone</dt>
+                              <dd class="mt-1 font-medium text-primary">{{ details.backupPhoneNumber }}</dd>
+                            </div>
+                          </div>
+                          @if (details.notes) {
+                            <div>
+                              <dt class="text-text-muted">Notes</dt>
+                              <dd class="mt-1 font-medium text-primary">{{ details.notes }}</dd>
+                            </div>
+                          }
+                        </dl>
+                      </div>
+
+                      <div class="p-5 sm:p-6">
+                        <div class="flex items-center justify-between gap-4">
+                          <p class="text-[0.58rem] font-bold uppercase tracking-[0.28em] text-accent">
+                            Items
+                          </p>
+                          <p class="text-sm font-medium text-primary">
+                            {{ details.totalAmount | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                          </p>
+                        </div>
+
+                        <div class="mt-5 divide-y divide-border">
+                          @for (item of details.items; track item.id) {
+                            <div class="grid gap-4 py-4 sm:grid-cols-[1fr_auto] sm:items-center">
+                              <div>
+                                <p class="font-medium text-primary">{{ item.productName }}</p>
+                                <p class="mt-1 text-sm text-text-muted">{{ item.variantDescription }}</p>
+                                <p class="mt-1 text-xs uppercase tracking-[0.16em] text-text-muted">
+                                  Variant #{{ item.productVariantId }}
+                                </p>
+                              </div>
+                              <div class="sm:text-right">
+                                <p class="text-sm text-text-muted">
+                                  {{ item.quantity }} x {{ item.unitPrice | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                                </p>
+                                <p class="mt-1 font-medium text-primary">
+                                  {{ item.lineTotal | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+                                </p>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </article>
+        }
+      </div>
+
+      <div class="mt-10 flex justify-center">
+        <a
+          routerLink="/shop"
+          class="inline-flex min-h-11 items-center justify-center border border-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-primary transition hover:bg-primary hover:text-background"
+        >
+          Continue shopping
+        </a>
+      </div>
+    }
+  </div>
+</section>
