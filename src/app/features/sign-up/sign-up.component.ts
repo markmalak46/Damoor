@@ -14,7 +14,7 @@ import { finalize } from 'rxjs';
 import { AuthErrors, SignUpRequest } from '../../core/auth/models/damoor-auth.models';
 import { AuthService } from '../../core/auth/services/auth.service';
 
-interface RegisterForm {
+interface SignUpForm {
   fullName: FormControl<string>;
   email: FormControl<string>;
   phone: FormControl<string>;
@@ -23,7 +23,7 @@ interface RegisterForm {
   acceptedTerms: FormControl<boolean>;
 }
 
-type RegisterControlName = keyof RegisterForm;
+type SignUpControlName = keyof SignUpForm;
 
 interface ApiErrorBody {
   message?: string;
@@ -31,12 +31,12 @@ interface ApiErrorBody {
 }
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-sign-up',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  templateUrl: './sign-up.component.html',
+  styleUrl: './sign-up.component.css',
 })
-export class RegisterComponent {
+export class SignUpComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
@@ -48,7 +48,7 @@ export class RegisterComponent {
   protected readonly apiMessage = signal('');
   protected readonly apiError = signal('');
 
-  protected readonly registerForm = this.formBuilder.nonNullable.group<RegisterForm>(
+  protected readonly signUpForm = this.formBuilder.nonNullable.group<SignUpForm>(
     {
       fullName: this.formBuilder.nonNullable.control('', [
         Validators.required,
@@ -74,8 +74,8 @@ export class RegisterComponent {
     this.apiError.set('');
     this.apiMessage.set('');
 
-    if (this.registerForm.invalid || this.loading()) {
-      this.registerForm.markAllAsTouched();
+    if (this.signUpForm.invalid || this.loading()) {
+      this.signUpForm.markAllAsTouched();
       return;
     }
 
@@ -109,25 +109,25 @@ export class RegisterComponent {
     this.showConfirmPassword.update((isVisible) => !isVisible);
   }
 
-  protected shouldShowError(controlName: RegisterControlName): boolean {
-    const control = this.registerForm.controls[controlName];
+  protected shouldShowError(controlName: SignUpControlName): boolean {
+    const control = this.signUpForm.controls[controlName];
     return control.invalid && (control.touched || this.submitted());
   }
 
   protected hasConfirmPasswordMismatch(): boolean {
-    const confirmPassword = this.registerForm.controls.confirmPassword;
+    const confirmPassword = this.signUpForm.controls.confirmPassword;
     return (
-      this.registerForm.hasError('passwordMismatch') &&
+      this.signUpForm.hasError('passwordMismatch') &&
       (confirmPassword.touched || this.submitted())
     );
   }
 
-  protected hasControlError(controlName: RegisterControlName, errorCode: string): boolean {
-    return this.registerForm.controls[controlName].hasError(errorCode);
+  protected hasControlError(controlName: SignUpControlName, errorCode: string): boolean {
+    return this.signUpForm.controls[controlName].hasError(errorCode);
   }
 
-  protected errorId(controlName: RegisterControlName): string {
-    return `register-${controlName}-error`;
+  protected errorId(controlName: SignUpControlName): string {
+    return `sign-up-${controlName}-error`;
   }
 
   private passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -142,7 +142,7 @@ export class RegisterComponent {
   }
 
   private toSignUpRequest(): SignUpRequest {
-    const value = this.registerForm.getRawValue();
+    const value = this.signUpForm.getRawValue();
 
     return {
       fullName: value.fullName.trim(),
@@ -155,7 +155,7 @@ export class RegisterComponent {
 
   private formatHttpError(error: HttpErrorResponse): string {
     if (error.status === 0) {
-      return 'We could not reach the registration service. Please check that the backend is running and the local HTTPS certificate is trusted.';
+      return 'We could not reach the sign-up service. Please check that the backend is running and the local HTTPS certificate is trusted.';
     }
 
     return this.formatApiErrors(this.readErrorMessage(error.error), this.readErrorDetails(error.error));

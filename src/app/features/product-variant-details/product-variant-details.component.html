@@ -1,0 +1,658 @@
+<section class="bg-background text-text">
+  <div class="mx-auto w-full max-w-384 px-4 py-6 sm:px-6 lg:px-10 xl:px-12">
+    <a
+      routerLink="/shop"
+      class="mb-5 inline-flex items-center gap-3 text-[0.62rem] font-bold uppercase tracking-[0.24em] text-text-muted transition hover:text-accent"
+    >
+      <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+        <path d="M15 5 8 12l7 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      Back to shop
+    </a>
+
+    @if (loading()) {
+      <div class="grid gap-7 lg:grid-cols-[minmax(0,1.12fr)_minmax(24rem,0.88fr)]">
+        <div class="grid animate-pulse gap-4 sm:grid-cols-[5rem_1fr]">
+          <div class="hidden space-y-3 sm:block">
+            <div class="aspect-square bg-surface-light"></div>
+            <div class="aspect-square bg-surface-light"></div>
+            <div class="aspect-square bg-surface-light"></div>
+          </div>
+          <div class="aspect-[1.08/1] bg-surface-light"></div>
+          <div class="sm:col-span-2 grid gap-4 sm:grid-cols-4">
+            <div class="h-16 bg-surface-light"></div>
+            <div class="h-16 bg-surface-light"></div>
+            <div class="h-16 bg-surface-light"></div>
+            <div class="h-16 bg-surface-light"></div>
+          </div>
+        </div>
+        <div class="animate-pulse pt-3">
+          <div class="h-2 w-24 bg-surface-light"></div>
+          <div class="mt-4 h-9 w-4/5 bg-surface-light"></div>
+          <div class="mt-4 h-5 w-44 bg-surface-light"></div>
+          <div class="mt-8 h-12 bg-surface-light"></div>
+          <div class="mt-3 h-12 bg-surface-light"></div>
+          <div class="mt-8 space-y-3">
+            <div class="h-12 bg-surface-light"></div>
+            <div class="h-12 bg-surface-light"></div>
+            <div class="h-12 bg-surface-light"></div>
+          </div>
+        </div>
+      </div>
+    } @else if (errorMessage()) {
+      <div class="flex min-h-[42vh] flex-col items-center justify-center border border-dashed border-border bg-surface-light px-6 py-14 text-center">
+        <h1 class="font-display text-4xl text-primary">Product unavailable.</h1>
+        <p class="mt-4 max-w-xl text-sm leading-6 text-text-muted">{{ errorMessage() }}</p>
+        <a
+          routerLink="/shop"
+          class="mt-8 inline-flex min-h-11 items-center justify-center bg-primary px-8 text-xs font-bold uppercase tracking-[0.22em] text-background transition hover:bg-accent hover:text-primary"
+        >
+          Return to shop
+        </a>
+      </div>
+    } @else if (variant(); as productVariant) {
+      <div class="grid gap-7 lg:grid-cols-[minmax(0,1.12fr)_minmax(24rem,0.88fr)] xl:gap-10">
+        <div>
+          <div class="grid gap-4 sm:grid-cols-[5rem_1fr]">
+            <div class="order-2 flex gap-3 overflow-x-auto sm:order-1 sm:flex-col sm:overflow-visible">
+              @for (image of productVariant.images; track image.id; let index = $index) {
+                <button
+                  type="button"
+                  class="aspect-square w-20 shrink-0 overflow-hidden border bg-surface-light p-2 transition hover:border-accent sm:w-full"
+                  [class.border-primary]="selectedImageIndex() === index"
+                  [class.border-border]="selectedImageIndex() !== index"
+                  [attr.aria-label]="'View image ' + (index + 1)"
+                  (click)="selectImage(index)"
+                >
+                  @if (thumbnailUrl(index)) {
+                    <img
+                      [src]="thumbnailUrl(index)"
+                      [alt]="productVariant.productName + ' thumbnail ' + (index + 1)"
+                      class="h-full w-full object-contain"
+                      loading="lazy"
+                      (error)="markImageFailed(image.id)"
+                    />
+                  } @else {
+                    <span class="flex h-full items-center justify-center text-[0.55rem] uppercase tracking-[0.18em] text-text-muted">
+                      Image
+                    </span>
+                  }
+                </button>
+              }
+            </div>
+
+            <div class="order-1 relative overflow-hidden bg-surface-light p-5 sm:order-2 sm:p-8">
+              <div class="aspect-[1.08/1]">
+                @if (selectedImage(); as image) {
+                  @if (imageUrl(image.id)) {
+                    <img
+                      [src]="imageUrl(image.id)"
+                      [alt]="productVariant.productName + ' in ' + productVariant.color"
+                      class="h-full w-full object-contain"
+                      (error)="markImageFailed(image.id)"
+                    />
+                  } @else {
+                    <div class="flex h-full items-center justify-center text-center">
+                      <div>
+                        <p class="font-display text-5xl text-primary/20">Damoor</p>
+                        <p class="mt-3 text-[0.6rem] uppercase tracking-[0.24em] text-text-muted">Image pending</p>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+
+              <button
+                type="button"
+                class="absolute bottom-5 right-5 inline-flex size-11 items-center justify-center rounded-full bg-background text-primary shadow-xl shadow-primary/10 transition hover:bg-primary hover:text-background"
+                aria-label="View larger image"
+              >
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M8 4H4v4M16 4h4v4M8 20H4v-4M20 16v4h-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-4 grid gap-4 border border-border bg-background p-4 sm:grid-cols-4">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex size-9 items-center justify-center rounded-full border border-border text-primary">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="m12 3 7 4v5c0 4.5-3 7.2-7 9-4-1.8-7-4.5-7-9V7l7-4Z" stroke="currentColor" stroke-width="1.5" />
+                  <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div>
+                <p class="text-[0.58rem] font-bold uppercase tracking-[0.16em] text-primary">Premium Quality</p>
+                <p class="mt-0.5 text-[0.62rem] text-text-muted">Built to last</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="inline-flex size-9 items-center justify-center rounded-full border border-border text-primary">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 12a8 8 0 1 0 2.35-5.65M4 5v7h7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+              </span>
+              <div>
+                <p class="text-[0.58rem] font-bold uppercase tracking-[0.16em] text-primary">Easy Returns</p>
+                <p class="mt-0.5 text-[0.62rem] text-text-muted">14-day return policy</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="inline-flex size-9 items-center justify-center rounded-full border border-border text-primary">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M3 7h11v10H3zM14 10h3.5l2.5 3v4h-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                  <path d="M7 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+              </span>
+              <div>
+                <p class="text-[0.58rem] font-bold uppercase tracking-[0.16em] text-primary">Fast Delivery</p>
+                <p class="mt-0.5 text-[0.62rem] text-text-muted">Within 2-4 business days</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="inline-flex size-9 items-center justify-center rounded-full border border-border text-primary">
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M6 10V8a6 6 0 1 1 12 0v2M5 10h14v10H5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div>
+                <p class="text-[0.58rem] font-bold uppercase tracking-[0.16em] text-primary">Secure Payment</p>
+                <p class="mt-0.5 text-[0.62rem] text-text-muted">Safe checkout</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 grid border border-border bg-background md:grid-cols-[1fr_18rem]">
+            <div class="border-b border-border p-6 md:border-b-0 md:border-r">
+              <h2 class="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-primary">Description</h2>
+              <p class="mt-4 max-w-2xl text-sm leading-7 text-text-muted">
+                A refined Damoor essential designed for everyday wear, shaped by clean lines and a quiet premium finish.
+              </p>
+              <ul class="mt-4 list-disc space-y-1.5 pl-4 text-sm leading-6 text-text-muted">
+                <li>Soft, comfortable hand feel</li>
+                <li>Easy styling for warm days and relaxed edits</li>
+                <li>Minimal detailing with a polished finish</li>
+              </ul>
+            </div>
+            <div class="p-6">
+              <h2 class="text-[0.62rem] font-bold uppercase tracking-[0.22em] text-primary">Product Details</h2>
+              <dl class="mt-4 space-y-3 text-xs">
+                <div class="grid grid-cols-[5rem_1fr] gap-4">
+                  <dt class="text-text-muted">Color</dt>
+                  <dd class="font-medium text-primary">{{ productVariant.color }}</dd>
+                </div>
+                <div class="grid grid-cols-[5rem_1fr] gap-4">
+                  <dt class="text-text-muted">Size</dt>
+                  <dd class="font-medium text-primary">{{ productVariant.size }}</dd>
+                </div>
+                <div class="grid grid-cols-[5rem_1fr] gap-4">
+                  <dt class="text-text-muted">SKU</dt>
+                  <dd class="break-all font-medium text-primary">{{ productVariant.sku }}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </div>
+
+        <article class="lg:sticky lg:top-24 lg:self-start">
+          <p class="text-[0.62rem] font-bold uppercase tracking-[0.24em] text-accent">New Arrival</p>
+          <h1 class="mt-2 font-display text-3xl leading-tight text-primary sm:text-4xl">
+            {{ productVariant.productName }}
+          </h1>
+          <p class="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-text-muted">
+            Premium everyday Damoor edit
+          </p>
+
+          <div class="mt-6 flex flex-wrap items-baseline gap-3 border-b border-border pb-5">
+            <span class="text-2xl font-medium tracking-tight text-primary">
+              {{ effectivePrice() | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+            </span>
+            @if (hasSalePrice()) {
+              <span class="text-sm text-text-muted line-through">
+                {{ productVariant.price | currency: 'EGP ' : 'symbol' : '1.0-0' }}
+              </span>
+              <span class="text-sm font-medium text-accent">-{{ discountPercent() }}%</span>
+            }
+          </div>
+
+          <div class="mt-5">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              Color:
+              <span class="font-medium normal-case tracking-normal text-text-muted">{{ productVariant.color }}</span>
+            </p>
+            <div class="mt-3 flex items-center gap-3">
+              @for (option of colorOptions(); track option.color) {
+                <button
+                  type="button"
+                  class="inline-flex size-8 items-center justify-center rounded-full border p-1 transition hover:border-accent disabled:cursor-not-allowed disabled:opacity-45"
+                  [class.border-primary]="isCurrentColor(option.color, productVariant.color)"
+                  [class.border-border]="!isCurrentColor(option.color, productVariant.color)"
+                  [disabled]="!option.isInStock"
+                  [attr.aria-label]="'Select ' + option.color"
+                  [attr.aria-pressed]="isCurrentColor(option.color, productVariant.color)"
+                  (click)="selectColor(option.color)"
+                >
+                  <span class="size-full rounded-full" [class]="colorSwatchClasses(option.color)"></span>
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <div class="flex items-center justify-between gap-4">
+              <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">Size:</p>
+              <button type="button" class="inline-flex items-center gap-1 text-[0.62rem] font-medium text-text-muted transition hover:text-accent">
+                <svg aria-hidden="true" class="size-3.5" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 7h16M7 4v16M17 4v16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+                Size Guide
+              </button>
+            </div>
+            <div class="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-7">
+              @for (option of sizeOptions(); track option.variantId) {
+                <button
+                  type="button"
+                  class="min-h-10 border text-xs font-medium transition disabled:cursor-not-allowed disabled:opacity-45"
+                  [class.border-primary]="isCurrentSize(option.size, productVariant.size)"
+                  [class.bg-primary]="isCurrentSize(option.size, productVariant.size)"
+                  [class.text-background]="isCurrentSize(option.size, productVariant.size)"
+                  [class.border-border]="!isCurrentSize(option.size, productVariant.size)"
+                  [class.text-primary]="!isCurrentSize(option.size, productVariant.size)"
+                  [disabled]="!option.isInStock"
+                  [attr.aria-pressed]="isCurrentSize(option.size, productVariant.size)"
+                  (click)="selectSize(option.variantId)"
+                >
+                  {{ option.size }}
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">Quantity:</p>
+            <div class="mt-3 inline-grid min-h-10 grid-cols-[2.75rem_3.5rem_2.75rem] border border-border">
+              <button
+                type="button"
+                class="inline-flex items-center justify-center border-r border-border text-primary transition hover:bg-surface-light disabled:cursor-not-allowed disabled:opacity-40"
+                [disabled]="quantity() <= 1"
+                aria-label="Decrease quantity"
+                (click)="decreaseQuantity()"
+              >
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M5 12h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                </svg>
+              </button>
+              <span class="inline-flex items-center justify-center text-sm font-medium text-primary">
+                {{ quantity() }}
+              </span>
+              <button
+                type="button"
+                class="inline-flex items-center justify-center border-l border-border text-primary transition hover:bg-surface-light disabled:cursor-not-allowed disabled:opacity-40"
+                [disabled]="quantity() >= productVariant.stockQuantity"
+                aria-label="Increase quantity"
+                (click)="increaseQuantity(productVariant.stockQuantity)"
+              >
+                <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-[1fr_auto] gap-3">
+            <button
+              type="button"
+              class="min-h-12 bg-primary px-8 text-xs font-bold uppercase tracking-[0.18em] text-background transition hover:bg-accent hover:text-primary disabled:cursor-not-allowed disabled:bg-text-muted"
+              [disabled]="!productVariant.isInStock || isCartUpdating()"
+              (click)="addToCart(productVariant.id)"
+            >
+              @if (isCartUpdating()) {
+                Adding...
+              } @else {
+                {{ productVariant.isInStock ? 'Add To Cart' : 'Unavailable' }}
+              }
+            </button>
+            <button
+              type="button"
+              class="inline-flex size-12 items-center justify-center border border-border text-primary transition hover:border-accent hover:text-accent"
+              [class.border-accent]="isCurrentVariantWishlisted()"
+              [class.text-accent]="isCurrentVariantWishlisted()"
+              [disabled]="isWishlistUpdating()"
+              [attr.aria-label]="isCurrentVariantWishlisted() ? 'Remove from wishlist' : 'Add to wishlist'"
+              [attr.aria-pressed]="isCurrentVariantWishlisted()"
+              (click)="toggleWishlist(productVariant.id)"
+            >
+              <svg
+                aria-hidden="true"
+                class="size-5"
+                viewBox="0 0 24 24"
+                [attr.fill]="isCurrentVariantWishlisted() ? 'currentColor' : 'none'"
+              >
+                <path d="M20.8 5.9a5.1 5.1 0 0 0-7.2 0L12 7.5l-1.6-1.6a5.1 5.1 0 0 0-7.2 7.2l1.6 1.6L12 21.9l7.2-7.2 1.6-1.6a5.1 5.1 0 0 0 0-7.2Z" stroke="currentColor" stroke-width="1.45" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="col-span-2 min-h-12 border border-primary text-xs font-bold uppercase tracking-[0.18em] text-primary transition hover:bg-primary hover:text-background"
+            >
+              Buy It Now
+            </button>
+          </div>
+
+          <div class="mt-7 divide-y divide-border border border-border bg-background">
+            <details class="group" open>
+              <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-primary">
+                Shipping & Delivery
+                <span class="transition group-open:rotate-180">
+                  <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                    <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="px-5 pb-4 text-sm leading-6 text-text-muted">Delivery across Egypt is prepared with careful packaging and tracking updates.</p>
+            </details>
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-primary">
+                Return & Exchange
+                <span class="transition group-open:rotate-180">
+                  <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                    <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="px-5 pb-4 text-sm leading-6 text-text-muted">Eligible pieces can be exchanged or returned within the policy window.</p>
+            </details>
+            <details class="group">
+              <summary class="flex cursor-pointer list-none items-center justify-between px-5 py-4 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-primary">
+                Care Instructions
+                <span class="transition group-open:rotate-180">
+                  <svg aria-hidden="true" class="size-4" viewBox="0 0 24 24" fill="none">
+                    <path d="m7 10 5 5 5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </summary>
+              <p class="px-5 pb-4 text-sm leading-6 text-text-muted">Wash gently with similar colors and avoid harsh heat to preserve the finish.</p>
+            </details>
+          </div>
+
+          <div class="mt-5 flex items-center justify-between gap-5 border border-border bg-background p-5">
+            <div>
+              <h2 class="text-sm font-semibold text-primary">Need help?</h2>
+              <p class="mt-1 text-xs leading-5 text-text-muted">Our support team is here to help you.</p>
+              <button
+                type="button"
+                class="mt-4 min-h-10 border border-border px-5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-primary transition hover:border-primary hover:bg-primary hover:text-background"
+              >
+                Contact us
+              </button>
+            </div>
+            <span class="inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-surface-light text-primary">
+              <svg aria-hidden="true" class="size-6" viewBox="0 0 24 24" fill="none">
+                <path d="M4 13a8 8 0 1 1 16 0v3a2 2 0 0 1-2 2h-1M4 13v3a2 2 0 0 0 2 2h1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M7 13h2v5H7zM15 13h2v5h-2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+              </svg>
+            </span>
+          </div>
+        </article>
+      </div>
+
+      <section class="mt-8 border border-border bg-background">
+        <div class="grid gap-6 border-b border-border p-5 sm:p-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <p class="text-[0.62rem] font-bold uppercase tracking-[0.24em] text-accent">
+              Reviews
+            </p>
+            <h2 class="mt-2 font-display text-3xl leading-none text-primary sm:text-4xl">
+              What customers say
+            </h2>
+            <div class="mt-5 flex flex-wrap items-center gap-3">
+              <div class="flex items-center gap-1 text-accent" aria-label="Average rating">
+                @for (star of ratingStars(averageRating()); track $index) {
+                  <svg
+                    aria-hidden="true"
+                    class="size-4"
+                    viewBox="0 0 24 24"
+                    [attr.fill]="star ? 'currentColor' : 'none'"
+                  >
+                    <path d="m12 3.2 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9L6.6 20l1-6.1-4.4-4.3 6.1-.9L12 3.2Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" />
+                  </svg>
+                }
+              </div>
+              <p class="text-sm text-text-muted">
+                @if (reviews().length > 0) {
+                  {{ averageRating() | number: '1.1-1' }} from {{ reviews().length }} review{{ reviews().length === 1 ? '' : 's' }}
+                } @else {
+                  No reviews yet
+                }
+              </p>
+            </div>
+          </div>
+
+          <form [formGroup]="reviewForm" (ngSubmit)="submitReview()" class="border border-soft-border bg-surface-light p-4 sm:p-5" novalidate>
+            <h3 class="text-xs font-bold uppercase tracking-[0.22em] text-primary">Add your review</h3>
+
+            @if (reviewError()) {
+              <p class="mt-4 border border-red-200 bg-red-50 px-4 py-3 text-sm leading-5 text-red-800" role="alert">
+                {{ reviewError() }}
+              </p>
+            }
+
+            <div class="mt-4 grid gap-3 sm:grid-cols-[8rem_1fr]">
+              <div>
+                <label for="review-rating" class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                  Rating
+                </label>
+                <select
+                  id="review-rating"
+                  formControlName="rating"
+                  class="mt-2 min-h-11 w-full border border-border bg-background px-3 text-sm text-primary outline-none transition focus:border-accent"
+                >
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="4">4</option>
+                  <option [ngValue]="3">3</option>
+                  <option [ngValue]="2">2</option>
+                  <option [ngValue]="1">1</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="review-comment" class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                  Comment
+                </label>
+                <textarea
+                  id="review-comment"
+                  formControlName="comment"
+                  rows="3"
+                  class="mt-2 w-full resize-none border border-border bg-background px-4 py-3 text-sm leading-6 text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                  placeholder="Share your thoughts about this piece"
+                  [attr.aria-invalid]="shouldShowReviewError('comment')"
+                ></textarea>
+                @if (shouldShowReviewError('comment')) {
+                  <p class="mt-1 text-xs text-red-800">
+                    @if (reviewForm.controls.comment.hasError('required')) {
+                      Review comment is required.
+                    } @else if (reviewForm.controls.comment.hasError('maxlength')) {
+                      Review comment must be 500 characters or fewer.
+                    } @else {
+                      Review comment must be at least 2 characters.
+                    }
+                  </p>
+                }
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="mt-4 inline-flex min-h-11 w-full items-center justify-center bg-primary px-6 text-xs font-bold uppercase tracking-[0.2em] text-background transition hover:bg-accent hover:text-primary disabled:cursor-not-allowed disabled:bg-text-muted"
+              [disabled]="isReviewSubmitting()"
+            >
+              {{ isReviewSubmitting() ? 'Publishing...' : 'Publish Review' }}
+            </button>
+          </form>
+        </div>
+
+        <div class="divide-y divide-border">
+          @if (reviews().length === 0) {
+            <div class="p-6 text-sm leading-6 text-text-muted">
+              Be the first to review this Damoor piece.
+            </div>
+          } @else {
+            @for (review of reviews(); track review.id) {
+              <article class="grid gap-4 p-5 sm:p-6 md:grid-cols-[13rem_1fr]">
+                <div>
+                  <div class="flex items-start justify-between gap-3 md:block">
+                    <div>
+                      <p class="font-medium text-primary">{{ review.userName }}</p>
+                      <p class="mt-1 text-xs text-text-muted">
+                        {{ formatReviewDate(review.updatedAt ?? review.createdAt) }}
+                        @if (review.updatedAt) {
+                          <span class="text-text-muted/70">updated</span>
+                        }
+                      </p>
+                    </div>
+                    @if (canEditReview(review) && editingReviewId() !== review.id) {
+                      <div class="flex items-center gap-3 md:mt-4">
+                        <button
+                          type="button"
+                          class="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-accent transition hover:text-primary"
+                          (click)="startEditReview(review)"
+                        >
+                          Edit
+                        </button>
+                        <span aria-hidden="true" class="h-3 w-px bg-border"></span>
+                        <button
+                          type="button"
+                          class="text-[0.58rem] font-bold uppercase tracking-[0.2em] text-red-800 transition hover:text-primary disabled:cursor-not-allowed disabled:opacity-50"
+                          [disabled]="deletingReviewId() === review.id"
+                          (click)="deleteReview(review)"
+                        >
+                          {{ deletingReviewId() === review.id ? 'Deleting...' : 'Delete' }}
+                        </button>
+                      </div>
+                    }
+                  </div>
+                  <div class="mt-3 flex items-center gap-1 text-accent" [attr.aria-label]="review.rating + ' out of 5 stars'">
+                    @for (star of ratingStars(review.rating); track $index) {
+                      <svg
+                        aria-hidden="true"
+                        class="size-3.5"
+                        viewBox="0 0 24 24"
+                        [attr.fill]="star ? 'currentColor' : 'none'"
+                      >
+                        <path d="m12 3.2 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9L6.6 20l1-6.1-4.4-4.3 6.1-.9L12 3.2Z" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round" />
+                      </svg>
+                    }
+                  </div>
+                </div>
+                <div>
+                  @if (editingReviewId() === review.id) {
+                    <form [formGroup]="editReviewForm" (ngSubmit)="submitReviewUpdate(review)" class="border border-soft-border bg-surface-light p-4" novalidate>
+                      <div class="grid gap-3 sm:grid-cols-[8rem_1fr]">
+                        <div>
+                          <label for="edit-review-rating" class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                            Rating
+                          </label>
+                          <select
+                            id="edit-review-rating"
+                            formControlName="rating"
+                            class="mt-2 min-h-11 w-full border border-border bg-background px-3 text-sm text-primary outline-none transition focus:border-accent"
+                          >
+                            <option [ngValue]="5">5</option>
+                            <option [ngValue]="4">4</option>
+                            <option [ngValue]="3">3</option>
+                            <option [ngValue]="2">2</option>
+                            <option [ngValue]="1">1</option>
+                          </select>
+                        </div>
+
+                        <div>
+                          <label for="edit-review-comment" class="text-[0.62rem] font-bold uppercase tracking-[0.18em] text-text-muted">
+                            Comment
+                          </label>
+                          <textarea
+                            id="edit-review-comment"
+                            formControlName="comment"
+                            rows="3"
+                            class="mt-2 w-full resize-none border border-border bg-background px-4 py-3 text-sm leading-6 text-primary outline-none transition placeholder:text-text-muted/55 focus:border-accent"
+                            [attr.aria-invalid]="shouldShowEditReviewError('comment')"
+                          ></textarea>
+                          @if (shouldShowEditReviewError('comment')) {
+                            <p class="mt-1 text-xs text-red-800">
+                              @if (editReviewForm.controls.comment.hasError('required')) {
+                                Review comment is required.
+                              } @else if (editReviewForm.controls.comment.hasError('maxlength')) {
+                                Review comment must be 500 characters or fewer.
+                              } @else {
+                                Review comment must be at least 2 characters.
+                              }
+                            </p>
+                          }
+                        </div>
+                      </div>
+
+                      <div class="mt-4 flex flex-wrap gap-3">
+                        <button
+                          type="submit"
+                          class="inline-flex min-h-10 items-center justify-center bg-primary px-5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-background transition hover:bg-accent hover:text-primary disabled:cursor-not-allowed disabled:bg-text-muted"
+                          [disabled]="isReviewUpdating()"
+                        >
+                          {{ isReviewUpdating() ? 'Saving...' : 'Save Review' }}
+                        </button>
+                        <button
+                          type="button"
+                          class="inline-flex min-h-10 items-center justify-center border border-border px-5 text-[0.62rem] font-bold uppercase tracking-[0.18em] text-primary transition hover:border-accent hover:text-accent"
+                          (click)="cancelEditReview()"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  } @else {
+                    <p class="text-sm leading-7 text-text-muted">{{ review.comment }}</p>
+                  }
+                </div>
+              </article>
+            }
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  @if (actionNotification(); as notification) {
+    <div
+      class="fixed right-4 top-24 z-60 w-[min(24rem,calc(100vw-2rem))] border bg-background px-5 py-4 shadow-2xl shadow-primary/15 sm:right-6"
+      [class.border-accent]="notification.tone === 'success'"
+      [class.border-red-800]="notification.tone === 'error'"
+      role="status"
+      aria-live="polite"
+    >
+      <div class="flex items-start gap-3">
+        <span
+          class="mt-1 inline-flex size-7 shrink-0 items-center justify-center rounded-full"
+          [class.bg-accent]="notification.tone === 'success'"
+          [class.bg-red-800]="notification.tone === 'error'"
+        >
+          @if (notification.tone === 'success') {
+            <svg aria-hidden="true" class="size-4 text-primary" viewBox="0 0 24 24" fill="none">
+              <path d="m5 12.5 4.2 4.2L19 6.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          } @else {
+            <svg aria-hidden="true" class="size-4 text-background" viewBox="0 0 24 24" fill="none">
+              <path d="M12 8v5M12 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          }
+        </span>
+        <div>
+          <p class="text-[0.58rem] font-bold uppercase tracking-[0.24em] text-accent">
+            {{ notification.tone === 'success' ? 'Updated' : 'Notice' }}
+          </p>
+          <p class="mt-1 text-sm leading-6 text-primary">
+            {{ notification.message }}
+          </p>
+        </div>
+      </div>
+    </div>
+  }
+</section>
