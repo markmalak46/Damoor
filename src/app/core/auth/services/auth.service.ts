@@ -1,20 +1,33 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
-import { AuthData, SignInRequest, SignInResponse, SignUpRequest, SignUpResponse, StoredAuthSession } from '../models/damoor-auth.models';
+import {
+  AuthData,
+  AuthUser,
+  SignInRequest,
+  SignInResponse,
+  SignUpRequest,
+  SignUpResponse,
+  StoredAuthSession,
+} from '../models/damoor-auth.models';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService {
-  private readonly platformId = inject(PLATFORM_ID);
   private static readonly storageKey = 'damoor.auth.session';
+
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly httpClient = inject(HttpClient);
   private readonly apiBaseUrl = this.normalizeBaseUrl(environment.baseUrl);
   private readonly router = inject(Router);
+  private readonly currentUserSignal = signal<AuthUser | null>(this.readStoredUser());
+
+  readonly currentUser = this.currentUserSignal.asReadonly();
 
   isAuthenticated(): boolean {
     if (!isPlatformBrowser(this.platformId)) {
@@ -49,24 +62,62 @@ export class AuthService {
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('DamoorToken');
+      localStorage.removeItem(AuthService.storageKey);
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
     }
 
+    this.currentUserSignal.set(null);
     this.router.navigate(['/login']);
   }
 
   persistAuthSession(authData: AuthData): void {
+    if (!isPlatformBrowser(this.platformId)) {
+      return;
+    }
+
     const session: StoredAuthSession = {
       ...authData,
       storedAtUtc: new Date().toISOString(),
     };
 
     localStorage.setItem(AuthService.storageKey, JSON.stringify(session));
+    localStorage.setItem('DamoorToken', authData.accessToken);
     localStorage.setItem('token', authData.accessToken);
     localStorage.setItem('user', JSON.stringify(authData.user));
+    this.currentUserSignal.set(authData.user);
   }
 
   private normalizeBaseUrl(baseUrl: string): string {
     return baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+  }
+
+  private readStoredUser(): AuthUser | null {
+    if (!isPlatformBrowser(this.platformId)) {
+      return null;
+    }
+
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        return JSON.parse(storedUser) as AuthUser;
+      } catch {
+        localStorage.removeItem('user');
+      }
+    }
+
+    const storedSession = localStorage.getItem(AuthService.storageKey);
+    if (!storedSession) {
+      return null;
+    }
+
+    try {
+      const session = JSON.parse(storedSession) as StoredAuthSession;
+      return session.user;
+    } catch {
+      localStorage.removeItem(AuthService.storageKey);
+      return null;
+    }
   }
 
 }

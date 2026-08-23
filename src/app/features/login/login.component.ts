@@ -4,7 +4,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
-import { AuthErrors, SignInRequest } from '../../core/auth/models/damoor-auth.models';
+import { AuthErrors, AuthUser, SignInRequest } from '../../core/auth/models/damoor-auth.models';
 import { AuthService } from '../../core/auth/services/auth.service';
 
 interface SignInForm {
@@ -58,7 +58,7 @@ export class LoginComponent {
         next: (response) => {
           if (response.success && response.data) {
             this.authService.persistAuthSession(response.data);
-            this.router.navigate(['/']);
+            this.router.navigate([this.getPostSignInRoute(response.data.user)]);
             return;
           }
 
@@ -90,6 +90,14 @@ export class LoginComponent {
       email: value.email.trim(),
       password: value.password,
     };
+  }
+
+  private getPostSignInRoute(user: AuthUser): string {
+    return this.hasRole(user, 'Admin') ? '/admin' : '/';
+  }
+
+  private hasRole(user: AuthUser, role: string): boolean {
+    return user.roles.some((userRole) => userRole.toLowerCase() === role.toLowerCase());
   }
 
   private formatHttpError(error: HttpErrorResponse): string {
