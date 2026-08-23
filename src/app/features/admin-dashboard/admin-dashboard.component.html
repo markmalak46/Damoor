@@ -1,106 +1,32 @@
-<section class="bg-surface-light text-text">
-  <div class="mx-auto w-full max-w-384 px-4 py-10 sm:px-6 lg:px-10 lg:py-14 xl:px-12">
-    <header class="grid gap-8 border-b border-border pb-8 lg:grid-cols-[1fr_auto] lg:items-end">
-      <div>
-        <p class="text-[0.62rem] font-bold uppercase tracking-[0.42em] text-accent">
-          Damoor Admin
-        </p>
-        <h1 class="mt-4 max-w-3xl font-display text-5xl leading-[0.94] text-primary sm:text-6xl">
-          Control the collection with quiet precision.
-        </h1>
-        <p class="mt-5 max-w-2xl text-sm leading-7 text-text-muted sm:text-base">
-          Static dashboard preview for orders, collection health, and daily operational focus.
+<section class="bg-background text-text">
+  <div class="mx-auto grid w-full max-w-384 gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[18rem_1fr] lg:px-10 lg:py-10 xl:px-12">
+    <aside class="border border-primary/10 bg-primary text-background shadow-xl shadow-primary/15 lg:min-h-[calc(100vh-12rem)]">
+      <div class="border-b border-background/10 p-6">
+        <p class="text-[0.58rem] font-black uppercase tracking-[0.36em] text-accent">Damoor</p>
+        <h1 class="mt-3 font-display text-3xl leading-none">Admin</h1>
+        <p class="mt-3 text-sm leading-6 text-background/65">
+          Live operations for the Damoor store.
         </p>
       </div>
 
-      <div class="border border-soft-border bg-background px-5 py-4 text-sm text-text-muted shadow-sm shadow-primary/5">
-        <p class="text-[0.58rem] font-black uppercase tracking-[0.28em] text-accent">Today</p>
-        <p class="mt-2 text-lg text-primary">Premium overview</p>
-      </div>
-    </header>
+      <nav class="p-3" aria-label="Admin navigation">
+        @for (link of navLinks; track link.route) {
+          <a
+            [routerLink]="link.route"
+            routerLinkActive="border-accent bg-background/8 text-accent"
+            class="group block border border-transparent px-4 py-4 text-background/78 transition hover:border-background/15 hover:bg-background/5 hover:text-background"
+          >
+            <span class="text-xs font-bold uppercase tracking-[0.24em]">{{ link.label }}</span>
+            <span class="mt-2 block text-xs leading-5 text-background/48 group-hover:text-background/65">
+              {{ link.description }}
+            </span>
+          </a>
+        }
+      </nav>
+    </aside>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      @for (metric of metrics; track metric.label) {
-        <article class="border border-soft-border bg-background p-5 shadow-sm shadow-primary/5">
-          <p class="text-[0.58rem] font-black uppercase tracking-[0.28em] text-accent">
-            {{ metric.label }}
-          </p>
-          <p class="mt-4 font-display text-4xl leading-none text-primary">{{ metric.value }}</p>
-          <p class="mt-3 text-sm leading-6 text-text-muted">{{ metric.note }}</p>
-        </article>
-      }
-    </div>
-
-    <div class="mt-8 grid gap-6 xl:grid-cols-[1.25fr_0.75fr]">
-      <section class="border border-soft-border bg-background p-5 shadow-sm shadow-primary/5 sm:p-6">
-        <div class="flex items-center justify-between gap-4 border-b border-border pb-5">
-          <div>
-            <p class="text-[0.58rem] font-black uppercase tracking-[0.28em] text-accent">
-              Orders
-            </p>
-            <h2 class="mt-2 font-display text-3xl leading-none text-primary">Recent movement</h2>
-          </div>
-          <span class="text-[0.58rem] font-black uppercase tracking-[0.22em] text-text-muted">
-            Static data
-          </span>
-        </div>
-
-        <div class="mt-2 divide-y divide-border">
-          @for (order of orders; track order.id) {
-            <article class="grid gap-3 py-5 sm:grid-cols-[1fr_auto_auto] sm:items-center">
-              <div>
-                <p class="text-xs font-bold uppercase tracking-[0.22em] text-accent">{{ order.id }}</p>
-                <p class="mt-2 text-base font-medium text-primary">{{ order.customer }}</p>
-              </div>
-              <p class="text-sm text-text-muted">{{ order.status }}</p>
-              <p class="font-medium text-primary">{{ order.total }}</p>
-            </article>
-          }
-        </div>
-      </section>
-
-      <aside class="bg-primary p-5 text-background shadow-xl shadow-primary/15 sm:p-6">
-        <p class="text-[0.58rem] font-black uppercase tracking-[0.28em] text-accent">
-          Focus
-        </p>
-        <h2 class="mt-2 font-display text-3xl leading-none">Today&apos;s tasks</h2>
-
-        <div class="mt-6 space-y-4">
-          @for (task of tasks; track task.title) {
-            <article class="border border-background/12 p-4">
-              <p class="text-sm font-semibold text-background">{{ task.title }}</p>
-              <p class="mt-2 text-sm leading-6 text-background/68">{{ task.detail }}</p>
-            </article>
-          }
-        </div>
-      </aside>
-    </div>
-
-    <section class="mt-8 grid gap-6 border border-soft-border bg-background p-5 shadow-sm shadow-primary/5 lg:grid-cols-[0.9fr_1.1fr] lg:items-center sm:p-6">
-      <div>
-        <p class="text-[0.58rem] font-black uppercase tracking-[0.28em] text-accent">
-          Collection Health
-        </p>
-        <h2 class="mt-2 font-display text-3xl leading-none text-primary">Ready for the next edit</h2>
-        <p class="mt-4 text-sm leading-7 text-text-muted">
-          Inventory, orders, and customer activity are arranged here as a calm operating surface before live admin APIs are connected.
-        </p>
-      </div>
-
-      <div class="grid gap-3 sm:grid-cols-3">
-        <div class="border border-border p-4">
-          <p class="font-display text-3xl text-primary">92%</p>
-          <p class="mt-2 text-[0.58rem] font-black uppercase tracking-[0.2em] text-text-muted">In stock</p>
-        </div>
-        <div class="border border-border p-4">
-          <p class="font-display text-3xl text-primary">24h</p>
-          <p class="mt-2 text-[0.58rem] font-black uppercase tracking-[0.2em] text-text-muted">Fulfillment</p>
-        </div>
-        <div class="border border-border p-4">
-          <p class="font-display text-3xl text-primary">4.8</p>
-          <p class="mt-2 text-[0.58rem] font-black uppercase tracking-[0.2em] text-text-muted">Rating</p>
-        </div>
-      </div>
-    </section>
+    <main class="min-w-0">
+      <router-outlet />
+    </main>
   </div>
 </section>

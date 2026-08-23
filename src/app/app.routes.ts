@@ -13,6 +13,7 @@ import { WishlistComponent } from './features/wishlist/wishlist.component';
 import { CartComponent } from './features/cart/cart.component';
 import { ProductVariantDetailsComponent } from './features/product-variant-details/product-variant-details.component';
 import { AdminDashboardComponent } from './features/admin-dashboard/admin-dashboard.component';
+import { AdminOrdersComponent } from './features/admin-orders/admin-orders.component';
 import { AccountComponent } from './features/account/account.component';
 import { OrdersComponent } from './features/orders/orders.component';
 import { CheckoutComponent } from './features/checkout/checkout.component';
@@ -160,6 +161,18 @@ export const routes: Routes = [
       {
         path: '',
         component: AdminDashboardComponent,
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'orders',
+          },
+          {
+            path: 'orders',
+            component: AdminOrdersComponent,
+            title: 'Admin Orders | Damoor',
+          },
+        ],
       },
     ],
   },
